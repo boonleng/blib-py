@@ -5,5 +5,5 @@ Just some convenient functions, color schemes, etc. for convenient coding in the
 
 ### Colors
 
-![Example of GSFIT](blob/palette.png)
+![Pallete](blob/pallete.png)
 
