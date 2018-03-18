@@ -1,0 +1,20 @@
+.DS_Store
+._*
+*.o
+*.pyc
+*.xcuserstate
+project.xcworkspace/
+xcuserdata/
+*.mp4
+*.csv
+*.png
+.ipynb_checkpoints
+
+# Some folders
+data
+figs
+
+# Caches
+*.sqlite
+
+# Log files
