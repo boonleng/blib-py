@@ -22,7 +22,7 @@ def showSwatch(swatch, M=6):
     ax = fig.add_axes([0, 0, 1, 0.92], frameon = False)
     for i in range(42):
         x = i % M
-        y = M - int(i / M)
+        y = M - i // M
         c = swatch[i]
         #print('{0:.2f},{1:.2f} -> {2}'.format(x, y, c[1].hex_format()))
         matplotlib.pyplot.plot(x, y, '.', markersize=50, color=c[1].hex_format())
