@@ -14,5 +14,4 @@ import blib
 
 ### Colors
 
-![Pallete](blob/pallete.png)
-
+![Pallete](blob/swatch-lab.png)
