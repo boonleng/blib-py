@@ -27,9 +27,10 @@ def showSwatch(swatch, M=6):
         #print('{0:.2f},{1:.2f} -> {2}'.format(x, y, c[1].hex_format()))
         matplotlib.pyplot.plot(x, y, '.', markersize=50, color=c[1].hex_format())
         matplotlib.pyplot.text(x + 0.004, y - 0.03, str(i), color='white', va='center', ha='center')
-        matplotlib.pyplot.text(x + 0.15, y - 0.03, c[0], verticalalignment='center')
+        matplotlib.pyplot.text(x + 0.15, y - 0.03, c[0], va='center')
     ax.xaxis.set_visible(False)
     ax.yaxis.set_visible(False)
     ax.set_xlim([-0.15, M])
     ax.set_ylim([-0.5, M + 0.5])
     fig.suptitle('Swatch', fontweight='bold')
+    return fig
