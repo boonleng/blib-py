@@ -1,22 +1,7 @@
 import matplotlib
 import numpy as np
-import colors
-
-matplotlib.rcParams['font.family'] = 'serif'
-matplotlib.rcParams['font.serif'] = ['Arial']
-matplotlib.rcParams['font.sans-serif'] = ['System Font', 'Verdana', 'Arial']
-matplotlib.rcParams['figure.figsize'] = (8, 4)   # Change the size of plots
-matplotlib.rcParams['figure.dpi'] = 108
-
-highlight = [0.85, 0.96, 0]
-
-# Color array N x 3
-cl = list(colors.colors.items())
-
-idx = [410, 303, 290, 401, 536, 536, 130, 127, 271, 15, 547, 513, 90, 56, 267, 373, 460, 87, 452, 105, 521, 476, 348, 166, 356, 495, 8, 44, 517, 118, 124, 355, 229, 217, 202, 181, 125, 211, 284, 309, 457, 21]
-
-swatch = [cl[x] for x in idx]
-swatchn = [[c[1].red, c[1].green, c[1].blue] for c in swatch]
+import cycler
+from colors import RGB, Color, colors
 
 def showSwatch(swatch, M=6):
     fig = matplotlib.pyplot.figure(figsize=(9, 4), dpi=216)
@@ -62,3 +47,39 @@ def rgb2lab(rgb):
     a = 500.0 * (fX - fY)
     b = 200.0 * (fY - fZ)
     return np.array([L, a, b]).transpose()
+
+def setColorCycleX():
+    n = [5, 11, 29, 21, 15, 39, 6, 34, 9, 27, 20, 38]
+    c = []
+    for i in n:
+        c.append(swatch[i][1].hex_format())
+    matplotlib.rcParams['axes.prop_cycle'] = cycler.cycler(color=c)
+
+def setColorCycle(column=3):
+    c = []
+    for i in range(column, len(swatch), 6):
+        c.append(swatch[i][1].hex_format())
+    matplotlib.rcParams['axes.prop_cycle'] = cycler.cycler(color=c)
+
+#
+# Some default parameters I'd like to us
+#
+
+matplotlib.rcParams['font.family'] = 'serif'
+matplotlib.rcParams['font.serif'] = ['Arial']
+matplotlib.rcParams['font.sans-serif'] = ['System Font', 'Verdana', 'Arial']
+matplotlib.rcParams['figure.figsize'] = (8, 4)   # Change the size of plots
+matplotlib.rcParams['figure.dpi'] = 108
+
+highlight = [0.85, 0.96, 0]
+
+# Make a list out of it
+colorList = list(colors.items())
+
+# The first color palette
+idx = [433, 303, 290, 401, 537, 336, 129, 127, 270, 15, 142, 513, 90, 56, 325, 373, 460, 87, 59, 517, 521, 476, 348, 343, 356, 286, 107, 108, 531, 118, 124, 124, 229, 217, 202, 179, 404, 213, 544, 516, 482, 21]
+
+swatch = [colorList[x] for x in idx]
+swatchn = [[c[1].red, c[1].green, c[1].blue] for c in swatch]
+
+setColorCycleX()
