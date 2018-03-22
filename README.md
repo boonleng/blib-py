@@ -7,7 +7,7 @@ Just some convenient functions, color schemes, etc. for convenient coding in the
 import os
 import sys
 
-sys.path.insert(0, os.path.expanduser('~') + 'Developer/blib-py')
+sys.path.insert(0, os.path.expanduser('~') + '/Developer/blib-py')
 
 import blib
 ```
