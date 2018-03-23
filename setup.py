@@ -20,7 +20,7 @@ gui_scripts = []
 with open(path.join(here, 'README.md')) as f:
     long_description = f.read()
 setup(
-    name='blib',
+    name='blib-py',
     version='0.1.1',
     description='For convenient coding and colormaps.',
     url='https://github.com/boonleng/blib-py',
@@ -29,4 +29,5 @@ setup(
     license='MIT',
     packages=['blib'],
     install_requires=install_requires,
-    zip_safe=False)
+    zip_safe=False
+)
