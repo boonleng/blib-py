@@ -11,7 +11,11 @@ xcuserdata/
 .ipynb_checkpoints
 
 # Some folders
+blib.egg-info
+blib_py.egg-info
+build
 data
+dist
 figs
 
 # Caches
