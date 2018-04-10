@@ -21,7 +21,7 @@ with open(path.join(here, 'README.md')) as f:
     long_description = f.read()
 setup(
     name='blib-py',
-    version='0.1.1',
+    version='0.1.2',
     description='For convenient coding and colormaps.',
     url='https://github.com/boonleng/blib-py',
     author='Boonleng Cheong',

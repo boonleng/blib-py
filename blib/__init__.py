@@ -1,4 +1,5 @@
 import matplotlib
+import matplotlib.font_manager
 import numpy as np
 import cycler
 from .colors import RGB, Color, colors
@@ -60,6 +61,19 @@ def setColorCycle(column=3):
     for i in range(column, len(swatch), 6):
         c.append(swatch[i][1].hex_format())
     matplotlib.rcParams['axes.prop_cycle'] = cycler.cycler(color=c)
+
+def listFonts(verbose=0, showname=False):
+    def make_html(fontname, showname=showname):
+        line = '<p><span style="font-family:{font}; font-size:16pt;">{font}</span>'.format(font=fontname)
+        if showname:
+            line += ' (<span style="color:blue;">{}</span>)'.format(fontname)
+        line += '</p>'
+        return line
+    code = '\n'.join([make_html(font) for font in sorted(set([f.name for f in matplotlib.font_manager.fontManager.ttflist]))])
+    if verbose:
+        print('Type these in Notebook:\nfrom IPython.core.display import HTML\nHTML(result)')
+    html = '<div style="column-count:2;">{}</div>'.format(code)
+    return html
 
 #
 # Some default parameters I'd like to us
