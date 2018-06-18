@@ -95,5 +95,6 @@ idx = [433, 303, 290, 401, 537, 336, 129, 127, 270, 15, 142, 513, 90, 56, 325, 3
 
 swatch = [colorList[x] for x in idx]
 swatchn = [[c[1].red, c[1].green, c[1].blue] for c in swatch]
+swatchInHex = [x[1].hex_format() for x in swatch]
 
 setColorCycleX()

@@ -19,15 +19,18 @@ gui_scripts = []
 # Get the long description from the README file
 with open(path.join(here, 'README.md')) as f:
     long_description = f.read()
+
+# Setup
 setup(
     name='blib-py',
-    version='0.1.2',
+    version='0.1.3',
     description='For convenient coding and colormaps.',
-    url='https://github.com/boonleng/blib-py',
     author='Boonleng Cheong',
     author_email='boonleng@ou.edu',
-    license='MIT',
+    url='https://github.com/boonleng/blib-py',
+    package_dir={'blib': 'blib'},
     packages=['blib'],
+    license='MIT',
     install_requires=install_requires,
     zip_safe=False
 )
