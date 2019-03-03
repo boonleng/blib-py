@@ -199,24 +199,30 @@ def zmapx(s=3):
     xp[14] = round(6 * s + 0.6667 * s) / n
     xp[15] = 1.0
     cp = [
-        [0.00, 0.00, 0.00],
-        [0.80, 0.60, 0.80],    # light purple
-        [0.40, 0.20, 0.40],    # dark purple
-        [0.80, 0.80, 0.60],    # light dirty
-        [0.40, 0.40, 0.40],    # dark gray
-        [0.00, 1.00, 1.00],    # cyan
-        [0.00, 0.00, 1.00],    # dark blue
-        [0.00, 1.00, 0.00],    # light green
-        [0.00, 0.50, 0.00],    # dark green
-        [1.00, 1.00, 0.00],    # yellow
-        [1.00, 0.50, 0.00],    # orange
-        [1.00, 0.00, 0.00],    # torch red
-        [0.50, 0.00, 0.00],    # dark red
-        [1.00, 0.00, 1.00],    # magenta
-        [0.56, 0.35, 1.00],    # purple
-        [1.00, 1.00, 1.00]     # white
+        [0.00, 0.00, 0.00, 0.0],
+        [0.80, 0.60, 0.80, 1.0],    # light purple
+        [0.40, 0.20, 0.40, 1.0],    # dark purple
+        [0.80, 0.80, 0.60, 1.0],    # light dirty
+        [0.40, 0.40, 0.40, 1.0],    # dark gray
+        [0.00, 1.00, 1.00, 1.0],    # cyan
+        [0.00, 0.00, 1.00, 1.0],    # dark blue
+        [0.00, 1.00, 0.00, 1.0],    # light green
+        [0.00, 0.50, 0.00, 1.0],    # dark green
+        [1.00, 1.00, 0.00, 1.0],    # yellow
+        [1.00, 0.50, 0.00, 1.0],    # orange
+        [1.00, 0.00, 0.00, 1.0],    # torch red
+        [0.50, 0.00, 0.00, 1.0],    # dark red
+        [1.00, 0.00, 1.00, 1.0],    # magenta
+        [0.56, 0.35, 1.00, 1.0],    # purple
+        [1.00, 1.00, 1.00, 1.0]     # white
          ]
     return fleximap(count, xp, cp)
+
+# Standard colormap for reflectivity
+def zmap(s=3):
+    rgba = zmapx(s)
+    rgba = np.concatenate(([[0.00, 0.00, 0.00, 0.0]], rgba[2 * s + 1:,]))
+    return rgba
 
 # Red green map for velocity
 def rgmap(count=16):
@@ -246,6 +252,9 @@ def rgmapf(count=16):
     ]
     return fleximap(count, xp, cp)
 
+def vmap():
+    return rgmap()
+    
 def wmap(s=4):
     if s % 2:
         print('Poor choice of {} shades / element. Recommend either 2, 4, 8 or 16.'.format(s))
@@ -304,8 +313,7 @@ def dmap():
         [0.60, 1.00, 1.00]     #
     ]
     rgb = fleximap(51, xp, cp)
-    rgb = np.expand_dims(rgb, axis=2)
-    rgb = np.repeat(rgb, 5, axis=2).transpose((0, 2, 1)).reshape(5 * 51, 3)
+    rgb = np.repeat(np.expand_dims(rgb, axis=1), 5, axis=1).reshape(5 * 51, 3)
     rgb = np.concatenate((rgb, rgb[-1, :].reshape(1, 3)))
     rgba = np.concatenate((rgb, np.ones((256, 1))), axis=1)
     rgba[:11, 3] = 220.0 / 255.0
@@ -337,6 +345,22 @@ def rmap():
         np.repeat(np.expand_dims(lomap, axis=1), c, axis=1).reshape((7 * c, 4)),
         np.repeat(np.expand_dims(himap, axis=1), c, axis=1).reshape((5 * 7 * c, 4))
     ))
+    return rgba
+
+def kmap():
+    # Four bands in the middle, two tail ends
+    s = 10
+    t = (256 - 6 * s * 4) / 4 / 2;
+    rgba = np.concatenate((
+        fleximap(s + t, [0.0, 1.0], [[0.35, 0.15, 0.60, 1.00], [0.75, 0.45, 1.00, 1.00]]),
+        fleximap(s    , [0.0, 1.0], [[0.50, 0.20, 0.35, 1.00], [1.00, 0.50, 0.85, 1.00]]),
+        fleximap(s    , [0.0, 1.0], [[0.70, 0.50, 0.15, 1.00], [1.00, 1.00, 0.85, 1.00]]),
+        fleximap(s    , [0.0, 1.0], [[1.00, 1.00, 1.00, 1.00], [0.00, 0.35, 1.00, 1.00]]),
+        fleximap(s    , [0.0, 1.0], [[0.20, 1.00, 0.00, 1.00], [0.00, 0.50, 0.00, 1.00]]),
+        fleximap(s + t, [0.0, 1.0], [[0.40, 0.45, 1.00, 1.00], [0.20, 0.22, 0.60, 1.00]])
+    ))
+    # Repeat each color 4 times
+    rgba = np.repeat(np.expand_dims(rgba, axis=1), 4, axis=1).reshape(256, 4)
     return rgba
 
 # From reference:
