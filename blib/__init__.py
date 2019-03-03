@@ -89,11 +89,12 @@ def fleximap(count=15, xp=None, cp=None):
 
 # from .colorspace import *
 
-def colorspace(rgb):
+def colorspace(rgba):
 
     # Some constants for convenient coding later
-    count = rgb.shape[0]
+    count = rgba.shape[0]
     x = np.arange(count)
+    rgb = rgba[:, :3]
 
     # Color in HSV representation
     hsv = np.array([colorsys.rgb_to_hsv(r, g, b) for r, g, b in rgb])
@@ -140,6 +141,9 @@ def colorspace(rgb):
     axl.add_line(line_h)
     axl.add_line(line_s)
     axl.add_line(line_v)
+    if rgba.shape[1] > 3:
+        line_a = matplotlib.lines.Line2D(x, rgba[:, 3], linewidth=linewidth, color='#777777', label='A', marker=marker, linestyle=':')
+        axl.add_line(line_a)
 
     # Backdrop gradient
     cmap = matplotlib.colors.LinearSegmentedColormap.from_list('backdrop', rgb)
@@ -153,22 +157,29 @@ def colorspace(rgb):
     c = matplotlib.pyplot.get_cmap('hsv');     hue = np.expand_dims(np.array([c(i)[:3] for i in hsv[:, 0]]), axis=0)
     c = matplotlib.pyplot.get_cmap('Purples'); sat = np.expand_dims(np.array([c(i)[:3] for i in hsv[:, 1]]), axis=0)
     c = matplotlib.pyplot.get_cmap('gray');    val = np.expand_dims(np.array([c(i)[:3] for i in hsv[:, 2]]), axis=0)
-
     # Lower image to show various color components / intrinsic parameters
-    img = np.concatenate((clr, red, grn, blu, hue, sat, val), axis=0)
-    axm.imshow(img, extent=(-0.5, count-0.5, -0.5, 6.5), aspect='auto')
+    if rgba.shape[1] > 3:
+        alp = np.expand_dims(np.array([c(i)[:3] for i in rgba[:, 3]]), axis=0)
+        img = np.concatenate((clr, red, grn, blu, hue, sat, val, alp), axis=0)
+        axm.imshow(img, extent=(-0.5, count-0.5, -0.5, 7.5), aspect='auto')
+        axl.set_title('Color Space - RGB, HSV, A', weight='bold')
+        axm.set_yticks(range(8))
+        _ = axm.set_yticklabels(['Opacity', 'Value', 'Saturation', 'Hue', 'Blue', 'Green', 'Red', 'Swatch'])
+    else:
+        img = np.concatenate((clr, red, grn, blu, hue, sat, val), axis=0)
+        axm.imshow(img, extent=(-0.5, count-0.5, -0.5, 6.5), aspect='auto')
+        axl.set_title('Color Space - RGB, HSV', weight='bold')
+        axm.set_yticks(range(7))
+        _ = axm.set_yticklabels(['Value', 'Saturation', 'Hue', 'Blue', 'Green', 'Red', 'Swatch'])
 
     # Axis limits, grid, etc.
     axl.set_xlim([-0.5, count - 0.5])
     axl.set_ylim([-0.05, 1.18])
     axl.set_ylabel('Values')
     axl.grid(alpha=0.5, color='k', linestyle=':')
-    axl.set_title('Color Space - RGB, HSV', weight='bold')
     lines = [line_r, line_g, line_b, line_h, line_s, line_v]
-    leg = axl.legend(handles=lines, loc='upper left', ncol=6, frameon=False, fontsize=9)
-    axm.set_yticks(range(7))
+    leg = axl.legend(handles=lines, loc='upper left', ncol=7, frameon=False, fontsize=9)
     axm.set_xlabel('Color Index')
-    _ = axm.set_yticklabels(['Value', 'Saturation', 'Hue', 'Blue', 'Green', 'Red', 'Swatch'])
 
 # Extended colormap for reflectivity
 # s - shades / element (number of shades for blue, green, etc.)
