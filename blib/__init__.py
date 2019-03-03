@@ -1,4 +1,6 @@
+import colorsys
 import matplotlib
+import matplotlib.pyplot
 import matplotlib.font_manager
 import numpy as np
 
@@ -62,12 +64,36 @@ def listFonts(verbose=0, showname=False):
     html = '<div style="column-count:2;">{}</div>'.format(code)
     return html
 
+def fleximap(count=15, xp=None, cp=None):
+    if xp is None and cp is None:
+        # Color provided
+        cp = [
+            [0.5, 0.0, 0.0],
+            [1.0, 0.0, 0.0],
+            [1.0, 1.0, 1.0],
+            [0.0, 0.0, 1.0],
+            [0.0, 0.0, 0.5],
+        ]
+        # X-axis provided
+        xp = [0.0, 0.2, 0.5, 0.8, 1.0]
+    # If anchors are supplied but not x
+    if xp is None:
+        xp = np.linspace(0.0, 1.0, len(cp))
+    if cp is None:
+        print('Supply xp and cp.')
+        return None
+    cp = np.array(cp)
+    xi = np.linspace(0.0, 1.0, count)
+    rgb = np.array([np.interp(xi, xp, cp[:, i]) for i in range(3)]).transpose((1, 0))
+    return rgb
+
 # from .colorspace import *
 
-def colorSpace(rgb):
+def colorspace(rgb):
 
     # Some constants for convenient coding later
     count = rgb.shape[0]
+    print(count)
     x = np.arange(count)
 
     # Color in HSV representation
@@ -130,7 +156,7 @@ def colorSpace(rgb):
     axm.imshow(img, extent=(-0.5, count+0.5, -0.5, 6.5), aspect='auto')
 
     # Axis limits, grid, etc.
-    axl.set_xlim([0, count])
+    axl.set_xlim([-0.5, count - 0.5])
     axl.set_ylim([-0.05, 1.18])
     axl.set_ylabel('Values')
     axl.grid(alpha=0.5, color='k', linestyle=':')
@@ -138,4 +164,5 @@ def colorSpace(rgb):
     lines = [line_r, line_g, line_b, line_h, line_s, line_v]
     leg = axl.legend(handles=lines, loc='upper left', ncol=6, frameon=False, fontsize=9)
     axm.set_yticks(range(7))
+    axm.set_xlabel('Color Index')
     _ = axm.set_yticklabels(['Intensity', 'Saturation', 'Hue', 'Blue', 'Green', 'Red', 'Swatch'])
