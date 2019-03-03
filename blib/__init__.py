@@ -174,8 +174,7 @@ def colorspace(rgb):
 # s - shades / element (number of shades for blue, green, etc.)
 def zmapx(s=3):
     if (s % 3):
-        print('Poor choice of {} shades / element'.format(s))
-        print('Recommend either 30, 15, 6 or 3.')
+        print('Poor choice of {} shades / element. Recommend either 30, 15, 6 or 3.'.format(s))
     count = round(6.6667 * s) + 2
     n = count - 1
     xp = np.zeros(16)
@@ -232,3 +231,17 @@ def rgmapf(count=16):
         [1.00, 0.00, 0.00]
     ]
     return fleximap(count, xp, cp)
+
+def wmap(s=4):
+    if s % 2:
+        print('Poor choice of {} shades / element. Recommend either 2, 4, 8 or 16.'.format(s))
+    rgb = np.concatenate((
+        fleximap(s, [0.0, 1.0], [[0.00, 1.00, 1.00], [0.00, 0.00, 0.85]]),
+        fleximap(s, [0.0, 1.0], [[0.00, 0.50, 0.00], [0.00, 1.00, 0.00]]),
+        fleximap(s, [0.0, 1.0], [[1.00, 1.00, 0.00], [1.00, 0.50, 0.00]]),
+        fleximap(s, [0.0, 1.0], [[1.00, 0.00, 0.00], [0.50, 0.00, 0.00]]),
+        fleximap(s, [0.0, 1.0], [[1.00, 0.00, 1.00], [0.50, 0.00, 0.50]]),
+        fleximap(s, [0.0, 1.0], [[0.60, 0.22, 1.00], [0.35, 0.11, 0.55]]),
+        np.tile([0.20, 0.45, 0.60], int(s / 2)).reshape(-1, 3),
+    ))
+    return rgb
