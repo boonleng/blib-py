@@ -84,7 +84,7 @@ def fleximap(count=15, xp=None, cp=None):
         return None
     cp = np.array(cp)
     xi = np.linspace(0.0, 1.0, count)
-    rgb = np.array([np.interp(xi, xp, cp[:, i]) for i in range(3)]).transpose((1, 0))
+    rgb = np.array([np.interp(xi, xp, cp[:, i]) for i in range(cp.shape[1])]).transpose((1, 0))
     return rgb
 
 # from .colorspace import *
@@ -165,20 +165,22 @@ def colorspace(rgba):
         axl.set_title('Color Space - RGB, HSV, A', weight='bold')
         axm.set_yticks(range(8))
         _ = axm.set_yticklabels(['Opacity', 'Value', 'Saturation', 'Hue', 'Blue', 'Green', 'Red', 'Swatch'])
+        lines = [line_r, line_g, line_b, line_h, line_s, line_v, line_a]
+        leg = axl.legend(handles=lines, loc='upper left', ncol=7, frameon=False, fontsize=9)
     else:
         img = np.concatenate((clr, red, grn, blu, hue, sat, val), axis=0)
         axm.imshow(img, extent=(-0.5, count-0.5, -0.5, 6.5), aspect='auto')
         axl.set_title('Color Space - RGB, HSV', weight='bold')
         axm.set_yticks(range(7))
         _ = axm.set_yticklabels(['Value', 'Saturation', 'Hue', 'Blue', 'Green', 'Red', 'Swatch'])
+        lines = [line_r, line_g, line_b, line_h, line_s, line_v]
+        leg = axl.legend(handles=lines, loc='upper left', ncol=6, frameon=False, fontsize=9)
 
     # Axis limits, grid, etc.
     axl.set_xlim([-0.5, count - 0.5])
     axl.set_ylim([-0.05, 1.18])
     axl.set_ylabel('Values')
     axl.grid(alpha=0.5, color='k', linestyle=':')
-    lines = [line_r, line_g, line_b, line_h, line_s, line_v]
-    leg = axl.legend(handles=lines, loc='upper left', ncol=7, frameon=False, fontsize=9)
     axm.set_xlabel('Color Index')
 
 # Extended colormap for reflectivity
@@ -307,4 +309,24 @@ def dmap():
     rgba = np.concatenate((rgb, np.ones((256, 1))), axis=1)
     rgba[:11, 3] = 220.0 / 255.0
     rgba[-6:, 3] = 220.0 / 255.0
+    return rgba
+
+def rmap():
+    c = 6
+    lomap = fleximap(7, [0.0, 1.0], [[0.00, 0.00, 0.00, 0.00], [0.50, 0.60, 0.70, 1.0]])
+    himap = np.concatenate((
+        fleximap(5, [0.0, 1.0], [[0.00, 1.00, 1.00, 1.00], [0.00, 0.00, 0.85, 1.00]]),
+        fleximap(5, [0.0, 1.0], [[0.00, 1.00, 0.00, 1.00], [0.00, 0.50, 0.00, 1.00]]),
+        fleximap(5, [0.0, 1.0], [[1.00, 1.00, 0.00, 1.00], [1.00, 0.50, 0.00, 1.00]]),
+        fleximap(5, [0.0, 1.0], [[1.00, 0.00, 0.00, 1.00], [0.50, 0.00, 0.00, 1.00]]),
+        fleximap(5, [0.0, 1.0], [[1.00, 0.00, 1.00, 1.00], [0.50, 0.00, 0.50, 1.00]]),
+        fleximap(5, [0.0, 1.0], [[0.60, 0.22, 1.00, 1.00], [0.35, 0.11, 0.55, 1.00]]),
+        fleximap(5, [0.0, 1.0], [[0.40, 0.45, 1.00, 1.00], [0.20, 0.22, 0.60, 1.00]])
+    ))
+    n = 256 - c * (lomap.shape[0] + himap.shape[0])
+    rgba = np.zeros((256, 4))
+    rgba[n:] = np.concatenate((
+        np.repeat(np.expand_dims(lomap, axis=1), c, axis=1).reshape((7 * c, 4)),
+        np.repeat(np.expand_dims(himap, axis=1), c, axis=1).reshape((5 * 7 * c, 4))
+    ))
     return rgba
