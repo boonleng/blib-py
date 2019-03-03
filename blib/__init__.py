@@ -93,7 +93,6 @@ def colorspace(rgb):
 
     # Some constants for convenient coding later
     count = rgb.shape[0]
-    print(count)
     x = np.arange(count)
 
     # Color in HSV representation
@@ -125,12 +124,16 @@ def colorspace(rgb):
     axl.xaxis.set_visible(False)
 
     # Draw
-    line_r = matplotlib.lines.Line2D(x, rgb[:, 0], linewidth=linewidth, color='r', label='Red')
-    line_g = matplotlib.lines.Line2D(x, rgb[:, 1], linewidth=linewidth, color='g', label='Green')
-    line_b = matplotlib.lines.Line2D(x, rgb[:, 2], linewidth=linewidth, color='b', label='Blue')
-    line_h = matplotlib.lines.Line2D(x, hsv[:, 0], linewidth=linewidth, color=linecolors[0], label='Hue')
-    line_s = matplotlib.lines.Line2D(x, hsv[:, 1], linewidth=linewidth, color=linecolors[1], label='Saturation')
-    line_v = matplotlib.lines.Line2D(x, hsv[:, 2], linewidth=linewidth, color=linecolors[2], label='Value')
+    if count <= 64:
+        marker = '.'
+    else:
+        marker = None
+    line_r = matplotlib.lines.Line2D(x, rgb[:, 0], linewidth=linewidth, color='r', label='R', marker=marker)
+    line_g = matplotlib.lines.Line2D(x, rgb[:, 1], linewidth=linewidth, color='g', label='G', marker=marker)
+    line_b = matplotlib.lines.Line2D(x, rgb[:, 2], linewidth=linewidth, color='b', label='B', marker=marker)
+    line_h = matplotlib.lines.Line2D(x, hsv[:, 0], linewidth=linewidth, color=linecolors[0], label='H', marker=marker)
+    line_s = matplotlib.lines.Line2D(x, hsv[:, 1], linewidth=linewidth, color=linecolors[1], label='S', marker=marker)
+    line_v = matplotlib.lines.Line2D(x, hsv[:, 2], linewidth=linewidth, color=linecolors[2], label='V', marker=marker)
     axl.add_line(line_r)
     axl.add_line(line_g)
     axl.add_line(line_b)
@@ -153,7 +156,7 @@ def colorspace(rgb):
 
     # Lower image to show various color components / intrinsic parameters
     img = np.concatenate((clr, red, grn, blu, hue, sat, val), axis=0)
-    axm.imshow(img, extent=(-0.5, count+0.5, -0.5, 6.5), aspect='auto')
+    axm.imshow(img, extent=(-0.5, count-0.5, -0.5, 6.5), aspect='auto')
 
     # Axis limits, grid, etc.
     axl.set_xlim([-0.5, count - 0.5])
@@ -165,4 +168,67 @@ def colorspace(rgb):
     leg = axl.legend(handles=lines, loc='upper left', ncol=6, frameon=False, fontsize=9)
     axm.set_yticks(range(7))
     axm.set_xlabel('Color Index')
-    _ = axm.set_yticklabels(['Intensity', 'Saturation', 'Hue', 'Blue', 'Green', 'Red', 'Swatch'])
+    _ = axm.set_yticklabels(['Value', 'Saturation', 'Hue', 'Blue', 'Green', 'Red', 'Swatch'])
+
+# Extended colormap for reflectivity
+# s - shades / element (number of shades for blue, green, etc.)
+def zmapx(s=3):
+    if (s % 3):
+        print('Poor choice of {} shades / element'.format(s))
+        print('Recommend either 30, 15, 6 or 3.')
+    count = round(6.6667 * s) + 2
+    n = count - 1
+    xp = np.zeros(16)
+    for i in range(6):
+        xp[2 * i + 1] = round(i * s + 1) / n
+        xp[2 * i + 2] = round((i + 1) * s) / n
+    xp[13] = round(6 * s + 1) / n
+    xp[14] = round(6 * s + 0.6667 * s) / n
+    xp[15] = 1.0
+    cp = [
+        [0.00, 0.00, 0.00],
+        [0.80, 0.60, 0.80],    # light purple
+        [0.40, 0.20, 0.40],    # dark purple
+        [0.80, 0.80, 0.60],    # light dirty
+        [0.40, 0.40, 0.40],    # dark gray
+        [0.00, 1.00, 1.00],    # cyan
+        [0.00, 0.00, 1.00],    # dark blue
+        [0.00, 1.00, 0.00],    # light green
+        [0.00, 0.50, 0.00],    # dark green
+        [1.00, 1.00, 0.00],    # yellow
+        [1.00, 0.50, 0.00],    # orange
+        [1.00, 0.00, 0.00],    # torch red
+        [0.50, 0.00, 0.00],    # dark red
+        [1.00, 0.00, 1.00],    # magenta
+        [0.56, 0.35, 1.00],    # purple
+        [1.00, 1.00, 1.00]     # white
+         ]
+    return fleximap(count, xp, cp)
+
+# Red green map for velocity
+def rgmap(count=16):
+    xp = [0.0, 0.3, 0.5, 0.7, 1.0]
+    cp = [
+        [0.00, 0.20, 0.00],
+        [0.00, 0.80, 0.00],
+        [0.85, 0.85, 0.85],
+        [0.80, 0.00, 0.00],
+        [0.20, 0.00, 0.00]
+    ]
+    return fleximap(count, xp, cp)
+
+# Red green map with forced middle 3 shades
+def rgmapf(count=16):
+    m = count - 1
+    c = np.floor(count / 2)
+    xp = [0.0, (c - 2) / m, (c - 1) / m, c / m, (c + 1) / m, (c + 2) / m, 1.0]
+    cp = [
+        [0.00, 1.00, 0.00],
+        [0.00, 0.40, 0.00],
+        [0.22, 0.33, 0.22],
+        [0.40, 0.40, 0.40],
+        [0.33, 0.22, 0.22],
+        [0.45, 0.00, 0.00],
+        [1.00, 0.00, 0.00]
+    ]
+    return fleximap(count, xp, cp)
