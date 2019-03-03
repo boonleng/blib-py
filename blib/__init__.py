@@ -92,8 +92,9 @@ def fleximap(count=15, xp=None, cp=None):
 def colorspace(rgba):
 
     # Some constants for convenient coding later
-    count = rgba.shape[0]
+    count = len(rgba)
     x = np.arange(count)
+    rgba = np.array(rgba)
     rgb = rgba[:, :3]
 
     # Color in HSV representation
@@ -311,6 +312,13 @@ def dmap():
     rgba[-6:, 3] = 220.0 / 255.0
     return rgba
 
+def pmap():
+    rgb = zebra(64, b=4)
+    rgb = np.expand_dims(rgb, axis=2)
+    rgb = np.repeat(rgb, 4, axis=2).transpose((0, 2, 1)).reshape(256, 3)
+    rgba = np.concatenate((rgb, np.ones((256, 1))), axis=1)
+    return rgba
+
 def rmap():
     c = 6
     lomap = fleximap(7, [0.0, 1.0], [[0.00, 0.00, 0.00, 0.00], [0.50, 0.60, 0.70, 1.0]])
@@ -330,3 +338,15 @@ def rmap():
         np.repeat(np.expand_dims(himap, axis=1), c, axis=1).reshape((5 * 7 * c, 4))
     ))
     return rgba
+
+# From reference:
+# Hooker, S. B. et al, Detecting Dipole Ring Separatrices with Zebra 
+# Palettes, IEEE Transactions on Geosciences and Remote Sensing, vol. 33,
+# 1306-1312, 1995
+def zebra(n=256, b=4, m=0.5):
+    x = np.arange(n)
+    saw = np.mod(b * x, b)
+    hue = 0.999 * np.exp(-3.0 * x / (n - 1))
+    sat = m + (1.0 - m) * 0.5 * (1.0 + saw / (b - 1.0))
+    val = m + (1.0 - m) * 0.5 * (1.0 + np.cos(4.0 * b * np.pi * x / n))
+    return [colorsys.hsv_to_rgb(h, s, v) for h, s, v in zip(hue, sat, val)]
