@@ -186,7 +186,7 @@ def colorspace(rgba):
 
 # Extended colormap for reflectivity
 # s - shades / element (number of shades for blue, green, etc.)
-def zmapx(s=3):
+def zmapext(s=3):
     if (s % 3):
         print('Poor choice of {} shades / element. Recommend either 30, 15, 6 or 3.'.format(s))
     count = round(6.6667 * s) + 2
@@ -219,10 +219,29 @@ def zmapx(s=3):
     return fleximap(count, xp, cp)
 
 # Standard colormap for reflectivity
-def zmap(s=3):
-    rgba = zmapx(s)
+def zmapstd(s=3):
+    rgba = zmapext(s)
     rgba = np.concatenate(([[0.00, 0.00, 0.00, 0.0]], rgba[2 * s + 1:,]))
     return rgba
+
+def zmap():
+    # The body shades starts with cyan at index 74 (75th shade)
+    # color[ 74] should be (0, 1, 1) cyan at exactly 5 dBZ    (RadarKit)
+    # color[104] should be (0, 1, 0) green at exactly 20 dBZ  (RadarKit)
+    zero = np.zeros((4, 4))
+    head = fleximap(7, [0.0, 1.0], [[0.00, 0.00, 0.00, 0.00], [0.50, 0.60, 0.70, 1.00]])
+    head = np.repeat(np.expand_dims(head, axis=1), 10, axis=1).reshape(70, 4)
+    body = zmapstd()[1:-1]
+    body = np.repeat(np.expand_dims(body, axis=1), 10, axis=1).reshape(140, 4)
+    tail = fleximap(256 - 214, [0.0, 1.0], [[1.00, 1.00, 1.00, 1.00], [0.50, 0.50, 0.50, 0.50]])
+    return np.concatenate((zero, head, body, tail))
+
+def zmapx():
+    zero = np.zeros((14, 4))
+    body = zmapext()[1:-1]
+    body = np.repeat(np.expand_dims(body, axis=1), 10, axis=1).reshape(200, 4)
+    tail = fleximap(256 - 214, [0.0, 1.0], [[1.00, 1.00, 1.00, 1.00], [0.50, 0.50, 0.50, 0.50]])
+    return np.concatenate((zero, body, tail))
 
 # Red green map for velocity
 def rgmap(count=16):
@@ -254,7 +273,7 @@ def rgmapf(count=16):
 
 def vmap():
     return rgmap()
-    
+
 def wmap(s=4):
     if s % 2:
         print('Poor choice of {} shades / element. Recommend either 2, 4, 8 or 16.'.format(s))
