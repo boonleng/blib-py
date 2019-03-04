@@ -126,7 +126,7 @@ def colorspace(rgba):
     axl.xaxis.set_visible(False)
 
     # Draw
-    if count <= 64:
+    if count <= 32:
         marker = '.'
     else:
         marker = None
@@ -183,6 +183,8 @@ def colorspace(rgba):
     axl.set_ylabel('Values')
     axl.grid(alpha=0.5, color='k', linestyle=':')
     axm.set_xlabel('Color Index')
+    if count <= 32:
+        axm.set_xticks(range(count))
 
 # Extended colormap for reflectivity
 # s - shades / element (number of shades for blue, green, etc.)
@@ -229,7 +231,9 @@ def zmap():
     # color[ 74] should be (0, 1, 1) cyan at exactly 5 dBZ    (RadarKit)
     # color[104] should be (0, 1, 0) green at exactly 20 dBZ  (RadarKit)
     zero = np.zeros((4, 4))
-    head = fleximap(7, [0.0, 1.0], [[0.00, 0.00, 0.00, 0.00], [0.50, 0.60, 0.70, 1.00]])
+    head = fleximap(7, [0.0, 0.5, 1.0], [[0.00, 0.00, 0.00, 0.3765],
+                                         [0.25, 0.30, 0.35, 1.0000],
+                                         [0.50, 0.60, 0.70, 1.0000]])
     head = np.repeat(np.expand_dims(head, axis=1), 10, axis=1).reshape(70, 4)
     body = zmapstd()[1:-1]
     body = np.repeat(np.expand_dims(body, axis=1), 10, axis=1).reshape(140, 4)
@@ -323,7 +327,7 @@ def dmap():
         [0.10, 1.00, 0.50],    # 3dB
         [0.00, 0.50, 0.00],    #
         [1.00, 1.00, 0.00],    # 6dB
-        [1.00, 0.50, 0.00],    # 
+        [1.00, 0.50, 0.00],    #
         [1.00, 0.00, 0.00],    #
         [0.50, 0.00, 0.00],    #
         [1.00, 0.00, 1.00],    #
@@ -383,7 +387,7 @@ def kmap():
     return rgba
 
 # From reference:
-# Hooker, S. B. et al, Detecting Dipole Ring Separatrices with Zebra 
+# Hooker, S. B. et al, Detecting Dipole Ring Separatrices with Zebra
 # Palettes, IEEE Transactions on Geosciences and Remote Sensing, vol. 33,
 # 1306-1312, 1995
 def zebra(n=256, b=4, m=0.5):
