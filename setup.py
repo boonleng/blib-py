@@ -23,7 +23,7 @@ with open(path.join(here, 'README.md')) as f:
 # Setup
 setup(
     name='blib-py',
-    version='0.2',
+    version='0.2.1',
     description='For convenient coding and colormaps.',
     author='Boonleng Cheong',
     author_email='boonleng@ou.edu',
