@@ -1,9 +1,15 @@
 Boonleng's Python Library
 ===
 
-Just some convenient functions, color schemes, etc. for convenient coding in the future.
+This is a collection of some convenient functions, color schemes, etc. for convenient coding in the future.
 
-### Install for System-Wide Usage
+### Install Using the Python Package Installaer
+
+```shell
+pip install blib-py
+```
+
+### Install from Source for System-Wide Usage
 
 Download the project:
 ```shell
@@ -12,21 +18,18 @@ git clone https://github.com/boonleng/blib-py.git
 
 ```shell
 cd blib-py
-```
-
-```shell
 pip install .
 ```
 
 ### Use It Without Instlallation
 
-Assume you download the project into the folder `~/Developer/blib-py`, you can add the path to Python's search path
+It is possible to use this library without installation. Assuming that you downloaded the project into the folder `~/Developer/blib-py`, you can add the path to Python's search path as follows.
 
 ```python
 import os
 import sys
 
-sys.path.insert(0, os.path.expanduser('~') + '/Developer/blib-py')
+sys.path.insert(0, os.path.expanduser('~/Developer/blib-py'))
 
 import blib
 ```
@@ -41,12 +44,4 @@ My memory is no longer as good as it used to be so I'm leaving myself some notes
 
 ```shell
 python setup.py sdist upload
-```
-
-```shell
-python setup.py install
-```
-
-```shell
-pip3 install .
 ```
