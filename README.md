@@ -11,10 +11,18 @@ pip install blib-py
 
 ### Install from Source for System-Wide Usage
 
-Download the project:
+Download the project from either GitHub or ARRC GitLab:
 ```shell
 git clone https://github.com/boonleng/blib-py.git
 ```
+
+or
+
+```shell
+git clone https://git.arrc.ou.edu/cheo4524/blib-py.git
+```
+
+Change directory to the project folder and install using `pip`.
 
 ```shell
 cd blib-py
