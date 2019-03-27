@@ -1,3 +1,4 @@
+import os
 import colorsys
 import matplotlib
 import matplotlib.pyplot
@@ -59,6 +60,11 @@ def listFonts(verbose=0, showname=False):
             line += ' (<span style="color:blue;">{}</span>)'.format(fontname)
         line += '</p>'
         return line
+    font_path = 'fonts'
+    if os.path.exists(font_path):
+        font_files = matplotlib.font_manager.findSystemFonts(fontpaths=[font_path])
+        font_names = matplotlib.font_manager.createFontList(font_files)
+        matplotlib.font_manager.fontManager.ttflist.extend(font_names)
     code = '\n'.join([make_html(font) for font in sorted(set([f.name for f in matplotlib.font_manager.fontManager.ttflist]))])
     if verbose:
         print('Type these in Notebook:\nfrom IPython.core.display import HTML\nHTML(result)')
