@@ -22,35 +22,35 @@ import sys
 sys.ps1='\033[38;5;{}m>\033[38;5;{}m>\033[38;5;{}m>\033[0m '.format(c[0], c[1], c[2])
 sys.ps2='\033[38;5;214m...\033[0m '
 
-import matplotlib
-matplotlib.rcParams['figure.dpi'] = 144
-matplotlib.rcParams['font.family'] = ['serif']
-matplotlib.rcParams['font.sans-serif'] = ['System Font',
-                                          'Arial',
-                                          'DejaVu Sans',
-                                          'Bitstream Vera Sans',
-                                          'Computer Modern Sans Serif',
-                                          'Lucida Grande',
-                                          'Verdana',
-                                          'Geneva',
-                                          'Lucid',
-                                          'Arial',
-                                          'Helvetica',
-                                          'Avant Garde',
-                                          'sans-serif']
-matplotlib.rcParams['font.serif'] = ['Arial', 
-                                     'DejaVu Serif',
-                                     'Bitstream Vera Serif',
-                                     'Computer Modern Roman',
-                                     'New Century Schoolbook',
-                                     'Century Schoolbook L',
-                                     'Utopia',
-                                     'ITC Bookman',
-                                     'Bookman',
-                                     'Nimbus Roman No9 L',
-                                     'Times New Roman',
-                                     'Times',
-                                     'Palatino',
-                                     'Charter',
-                                     'serif']
-matplotlib.rcParams['text.usetex'] = False
+#import matplotlib
+#matplotlib.rcParams['figure.dpi'] = 144
+#matplotlib.rcParams['font.family'] = ['serif']
+#matplotlib.rcParams['font.sans-serif'] = ['System Font',
+#                                          'Arial',
+#                                          'DejaVu Sans',
+#                                          'Bitstream Vera Sans',
+#                                          'Computer Modern Sans Serif',
+#                                          'Lucida Grande',
+#                                          'Verdana',
+#                                          'Geneva',
+#                                          'Lucid',
+#                                          'Arial',
+#                                          'Helvetica',
+#                                          'Avant Garde',
+#                                          'sans-serif']
+#matplotlib.rcParams['font.serif'] = ['Arial', 
+#                                     'DejaVu Serif',
+#                                     'Bitstream Vera Serif',
+#                                     'Computer Modern Roman',
+#                                     'New Century Schoolbook',
+#                                     'Century Schoolbook L',
+#                                     'Utopia',
+#                                     'ITC Bookman',
+#                                     'Bookman',
+#                                     'Nimbus Roman No9 L',
+#                                     'Times New Roman',
+#                                     'Times',
+#                                     'Palatino',
+#                                     'Charter',
+#                                     'serif']
+#matplotlib.rcParams['text.usetex'] = False

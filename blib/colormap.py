@@ -113,8 +113,42 @@ def rgmapf(count=16):
     ]
     return fleximap(count, xp, cp)
 
-def vmap():
-    return rgmap()
+def vmap(count=32):
+    if count < 32 or count % 2:
+        print('Count should be an even number greater or equal to 32\n');
+        count = 32
+    xp = [0.0,
+          (count *  4 / 32) / (count - 1),
+          (count *  7 / 32) / (count - 1),
+          (count *  9 / 32) / (count - 1),
+          (count * 12 / 32) / (count - 1),
+          (count / 2 - 2) / (count - 1),      # Middle - 2
+          (count / 2 - 1) / (count - 1),      # Middle - 1
+          (count / 2    ) / (count - 1),      # Middle + 1
+          (count / 2 + 1) / (count - 1),      # Middle + 2
+          (count * 19 / 32) / (count - 1),
+          (count * 22 / 32) / (count - 1),
+          (count * 24 / 32) / (count - 1),
+          (count * 27 / 32) / (count - 1),
+          1.0]
+    cp = [
+        [1.00, 0.00, 0.50],  # Magenta
+        [0.00, 0.00, 0.60],  # Blue
+        [0.00, 1.00, 1.00],  # Cyan
+        [0.60, 1.00, 1.00],  # Light Cyan
+        [0.00, 1.00, 0.00],  # Green
+        [0.00, 0.40, 0.00],  # Dark Green
+        [0.38, 0.50, 0.38],  # Grayish Green
+        [0.50, 0.38, 0.38],  # Grayish Red
+        [0.40, 0.00, 0.00],  # Dark Red
+        [1.00, 0.00, 0.00],  # Red
+        [1.00, 0.50, 0.70],  # Pink
+        [1.00, 0.90, 0.60],  # Light Peach
+        [1.00, 0.45, 0.25],  # Dark Orange
+        [0.32, 0.00, 0.00]
+    ]
+    rgb = fleximap(count, xp, cp)
+    return rgb
 
 def wmap(s=4):
     if s % 2:
