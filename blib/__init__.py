@@ -108,7 +108,7 @@ def colorspace(rgba):
     axl.xaxis.set_visible(False)
 
     # Draw
-    if count <= 32:
+    if count <= 64:
         marker = '.'
     else:
         marker = None
@@ -118,12 +118,12 @@ def colorspace(rgba):
     line_h = matplotlib.lines.Line2D(x, hsv[:, 0], linewidth=linewidth, color=linecolors[0], label='H', marker=marker)
     line_s = matplotlib.lines.Line2D(x, hsv[:, 1], linewidth=linewidth, color=linecolors[1], label='S', marker=marker)
     line_v = matplotlib.lines.Line2D(x, hsv[:, 2], linewidth=linewidth, color=linecolors[2], label='V', marker=marker)
-    axl.add_line(line_r)
-    axl.add_line(line_g)
-    axl.add_line(line_b)
-    axl.add_line(line_h)
-    axl.add_line(line_s)
     axl.add_line(line_v)
+    axl.add_line(line_s)
+    axl.add_line(line_h)
+    axl.add_line(line_b)
+    axl.add_line(line_g)
+    axl.add_line(line_r)
     if rgba.shape[1] > 3:
         line_a = matplotlib.lines.Line2D(x, rgba[:, 3], linewidth=linewidth, color='#777777', label='A', marker=marker, linestyle=':')
         axl.add_line(line_a)

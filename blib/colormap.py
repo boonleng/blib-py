@@ -117,35 +117,37 @@ def vmap(count=32):
     if count < 32 or count % 2:
         print('Count should be an even number greater or equal to 32\n');
         count = 32
-    xp = [0.0,
-          (count *  4 / 32) / (count - 1),
-          (count *  7 / 32) / (count - 1),
-          (count *  9 / 32) / (count - 1),
-          (count * 12 / 32) / (count - 1),
-          (count / 2 - 2) / (count - 1),      # Middle - 2
-          (count / 2 - 1) / (count - 1),      # Middle - 1
-          (count / 2    ) / (count - 1),      # Middle + 1
-          (count / 2 + 1) / (count - 1),      # Middle + 2
-          (count * 19 / 32) / (count - 1),
-          (count * 22 / 32) / (count - 1),
-          (count * 24 / 32) / (count - 1),
-          (count * 27 / 32) / (count - 1),
-          1.0]
+    xp = [0.0,                                  # Hot Magenta
+        (count *  5 / 32 - 1) / (count - 1),    # Blue
+        (count *  8 / 32 - 1) / (count - 1),    # Cyan
+        (count * 10 / 32 - 1) / (count - 1),    # Light Cyan
+        (count * 13 / 32 - 1) / (count - 1),    # Green
+        (count * 15 / 32 - 1) / (count - 1),    # Dark Green
+        (count * 15 / 32) / (count - 1),        # Grayish Green
+        0.5,                                    # Middle
+        (count * 17 / 32 - 1) / (count - 1),    # Grayish Red
+        (count * 17 / 32) / (count - 1),        # Dark Red
+        (count * 19 / 32) / (count - 1),        # Red
+        (count * 22 / 32) / (count - 1),        # Pink
+        (count * 24 / 32) / (count - 1),        # Light Peach
+        (count * 27 / 32) / (count - 1),        # Dark Orange
+        1.0]                                    # Dark Brown
     cp = [
-        [1.00, 0.00, 0.50],  # Magenta
-        [0.00, 0.00, 0.60],  # Blue
-        [0.00, 1.00, 1.00],  # Cyan
-        [0.60, 1.00, 1.00],  # Light Cyan
-        [0.00, 1.00, 0.00],  # Green
-        [0.00, 0.40, 0.00],  # Dark Green
-        [0.38, 0.50, 0.38],  # Grayish Green
-        [0.50, 0.38, 0.38],  # Grayish Red
-        [0.40, 0.00, 0.00],  # Dark Red
-        [1.00, 0.00, 0.00],  # Red
-        [1.00, 0.50, 0.70],  # Pink
-        [1.00, 0.90, 0.60],  # Light Peach
-        [1.00, 0.45, 0.25],  # Dark Orange
-        [0.32, 0.00, 0.00]
+        [1.00, 0.00, 0.50],                     # Magenta
+        [0.00, 0.00, 0.60],                     # Blue
+        [0.00, 1.00, 1.00],                     # Cyan
+        [0.65, 1.00, 1.00],                     # Light Cyan
+        [0.00, 1.00, 0.00],                     # Green
+        [0.00, 0.40, 0.00],                     # Dark Green
+        [0.35, 0.50, 0.35],                     # Grayish Green
+        [0.55, 0.55, 0.55],                     # Gray
+        [0.50, 0.35, 0.35],                     # Grayish Red
+        [0.40, 0.00, 0.00],                     # Dark Red
+        [1.00, 0.00, 0.00],                     # Red
+        [1.00, 0.50, 0.70],                     # Pink
+        [1.00, 0.90, 0.60],                     # Light Peach
+        [1.00, 0.45, 0.25],                     # Dark Orange
+        [0.30, 0.00, 0.00]                      # Dark Brown
     ]
     rgb = fleximap(count, xp, cp)
     return rgb
