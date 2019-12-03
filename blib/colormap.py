@@ -3,7 +3,7 @@ import numpy as np
 
 def fleximap(count=15, xp=None, cp=None):
     if xp is None and cp is None:
-        # Color provided
+        # Color provided. This array can N x 3 for RGB or N x 4 for RGBA
         cp = [
             [0.5, 0.0, 0.0],
             [1.0, 0.0, 0.0],
@@ -11,15 +11,16 @@ def fleximap(count=15, xp=None, cp=None):
             [0.0, 0.0, 1.0],
             [0.0, 0.0, 0.5],
         ]
-        # X-axis provided
+        # X-axis provided, the number of elements must be N
         xp = [0.0, 0.2, 0.5, 0.8, 1.0]
-    # If anchors are supplied but not x
+    # If x is not supplied
     if xp is None:
         xp = np.linspace(0.0, 1.0, len(cp))
+    # If color is not supplied
     if cp is None:
         print('Supply xp and cp.')
         return None
-    cp = np.array(cp)
+    cp = np.array(cp, dtype=float)
     xi = np.linspace(0.0, 1.0, count)
     rgb = np.array([np.interp(xi, xp, cp[:, i]) for i in range(cp.shape[1])]).transpose((1, 0))
     return rgb
@@ -89,11 +90,11 @@ def zmapx():
 def rgmap(count=16):
     xp = [0.0, 0.3, 0.5, 0.7, 1.0]
     cp = [
-        [0.00, 0.20, 0.00],
+        [0.00, 0.35, 0.00],
         [0.00, 0.80, 0.00],
         [0.85, 0.85, 0.85],
         [0.80, 0.00, 0.00],
-        [0.20, 0.00, 0.00]
+        [0.35, 0.00, 0.00]
     ]
     return fleximap(count, xp, cp)
 
@@ -188,7 +189,7 @@ def dmap():
         220.0 / 254.0,
         249.0 / 254.0,
         250.0 / 254.0,
-        1.00];
+        1.00]
     cp = [
         [0.30, 0.45, 0.50],    #
         [0.60, 0.90, 1.00],    #
@@ -261,6 +262,19 @@ def kmap():
     # Repeat each color 4 times
     rgba = np.repeat(np.expand_dims(rgba, axis=1), 4, axis=1).reshape(256, 4)
     return rgba
+
+def imap():
+    rgb = np.array([
+        [0.00, 0.00, 0.00],
+        [1.00, 0.60, 0.00],
+        [1.00, 0.00, 0.00],
+        [0.50, 0.50, 0.50],
+        [0.00, 1.00, 0.00],
+        [0.00, 0.75, 1.00],
+        [0.00, 0.00, 0.00],
+        [0.00, 0.00, 0.00]
+    ])
+    return rgb
 
 # From reference:
 # Hooker, S. B. et al, Detecting Dipole Ring Separatrices with Zebra
