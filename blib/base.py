@@ -17,13 +17,13 @@ def setColorCycle(column=3):
     matplotlib.rcParams['axes.prop_cycle'] = cycler.cycler(color=c)
 
 #
-# Some default parameters I'd like to us
+# Some default parameters I'd like to use
 #
 
 matplotlib.rcParams['font.family'] = 'serif'
 matplotlib.rcParams['font.serif'] = ['Arial']
 matplotlib.rcParams['font.sans-serif'] = ['System Font', 'Verdana', 'Arial']
-matplotlib.rcParams['figure.figsize'] = (8, 4)   # Change the size of plots
+matplotlib.rcParams['figure.figsize'] = (8, 4)
 matplotlib.rcParams['figure.dpi'] = 108
 
 highlight = [0.85, 0.96, 0]
