@@ -1,5 +1,4 @@
-Boonleng's Python Library
-===
+# Boonleng's Python Library
 
 This is a collection of some convenient functions, color schemes, etc. for convenient coding in the future.
 
@@ -12,6 +11,7 @@ pip install blib-py
 ### Install from Source for System-Wide Usage
 
 Download the project from either GitHub or ARRC GitLab:
+
 ```shell
 git clone https://github.com/boonleng/blib-py.git
 ```
@@ -52,4 +52,10 @@ My memory is no longer as good as it used to be so I'm leaving myself some notes
 
 ```shell
 python setup.py sdist upload
+```
+
+or
+
+```shell
+ twine upload --repository blib dist/*
 ```

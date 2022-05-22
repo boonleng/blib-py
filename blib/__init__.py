@@ -7,6 +7,7 @@ import numpy as np
 
 from .base import *
 from .colormap import *
+from .dailylog import *
 
 def showSwatch(swatch, M=6):
     fig = matplotlib.pyplot.figure(figsize=(9, 4), dpi=216)
