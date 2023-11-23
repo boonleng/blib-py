@@ -5,12 +5,12 @@ here = path.abspath(path.dirname(__file__))
 install_requires = [
     'numpy',
     'cycler',
-    'logging',
     'matplotlib'
 ]
 scripts = [
     '__init__.py',
     'colors.py',
+    'colormap.py',
     'dailylog.py'
 ]
 console_scripts = [
@@ -25,7 +25,7 @@ with open(path.join(here, 'README.md')) as f:
 # Setup
 setup(
     name='blib-py',
-    version='0.3.0',
+    version='1.0.0',
     description='For convenient coding',
     author='Boonleng Cheong',
     author_email='boonleng@ou.edu',
