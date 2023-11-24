@@ -20,11 +20,56 @@ def setColorCycle(column=3):
 # Some default parameters I'd like to use
 #
 
-matplotlib.rcParams['font.family'] = 'serif'
-matplotlib.rcParams['font.serif'] = ['Arial']
-matplotlib.rcParams['font.sans-serif'] = ['System Font', 'Verdana', 'Arial']
-matplotlib.rcParams['figure.figsize'] = (8, 4)
-matplotlib.rcParams['figure.dpi'] = 108
+def useTheme(theme='light'):
+    matplotlib.rcParams['font.family'] = 'sans-serif'
+    matplotlib.rcParams['font.sans-serif'] = ['Helvetica', 'Arial', 'Lucida Grande', 'DejaVu Sans']
+    matplotlib.rcParams['figure.figsize'] = (8, 4)
+    matplotlib.rcParams['figure.dpi'] = 108
+    matplotlib.rcParams['legend.frameon'] = False
+    # matplotlib.rcParams['legend.labelspacing'] = 0.5
+    # matplotlib.rcParams['axes.linewidth'] = 0.5
+    # matplotlib.rcParams['axes.labelsize'] = 10
+    # matplotlib.rcParams['axes.labelpad'] = 4.0
+    # matplotlib.rcParams['axes.labelweight'] = 'normal'
+    # matplotlib.rcParams['axes.titleweight'] = 'normal'
+    # matplotlib.rcParams['axes.titlesize'] = 12
+    # matplotlib.rcParams['axes.titlepad'] = 6.0
+    # matplotlib.rcParams['axes.formatter.limits'] = [-5, 5]
+
+    if theme == 'light':
+        props = {
+            'figure.facecolor': 'white',
+            'axes.facecolor': 'white',
+            'axes.edgecolor': 'black',
+            'axes.labelcolor': 'black',
+            'grid.color': 'black',
+            'xtick.color': 'black',
+            'ytick.color': 'black',
+            'hatch.color': 'black',
+            'text.color': 'black',
+            'legend.facecolor': 'white',
+            'legend.edgecolor': 'black',
+            'lines.markeredgecolor': 'black',
+            'lines.markerfacecolor': 'black'
+        }
+    elif theme == 'dark':
+        props = {
+            'figure.facecolor': 'black',
+            'axes.facecolor': 'black',
+            'axes.edgecolor': 'white',
+            'axes.labelcolor': 'white',
+            'grid.color': 'white',
+            'xtick.color': 'white',
+            'ytick.color': 'white',
+            'hatch.color': 'white',
+            'text.color': 'white',
+            'legend.facecolor': 'black',
+            'legend.edgecolor': 'white',
+            'lines.markeredgecolor': 'white',
+            'lines.markerfacecolor': 'white'
+        }
+    for keys in props:
+        matplotlib.rcParams[keys] = props[keys]
 
 highlight = [0.85, 0.96, 0]
 

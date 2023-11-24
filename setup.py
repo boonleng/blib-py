@@ -1,6 +1,8 @@
 from setuptools import setup
 from os import path
 
+from blib import __version__
+
 here = path.abspath(path.dirname(__file__))
 install_requires = [
     'numpy',
@@ -25,7 +27,7 @@ with open(path.join(here, 'README.md')) as f:
 # Setup
 setup(
     name='blib-py',
-    version='1.0.0',
+    version=__version__,
     description='For convenient coding',
     author='Boonleng Cheong',
     author_email='boonleng@ou.edu',
