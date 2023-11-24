@@ -23,7 +23,7 @@ def setColorCycle(column=3):
 def useTheme(theme='light'):
     props = {
         'font.family': 'sans-serif',
-        'font.sans-serif': ['Helvetica Nueue', 'Helvetica', 'Arial', 'Lucida Grande', 'DejaVu Sans'],
+        'font.sans-serif': ['Helvetica', 'Arial', 'Lucida Grande', 'DejaVu Sans'],
         'figure.figsize': (8, 4),
         'figure.dpi': 108,
         'legend.frameon': False,
