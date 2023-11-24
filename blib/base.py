@@ -1,7 +1,7 @@
 import matplotlib
 import cycler
 
-from .colors import RGB, Color, colors
+from .colors import colors
 
 def setColorCycleX():
     n = [5, 11, 29, 21, 15, 39, 6, 34, 9, 27, 20, 38]
@@ -21,25 +21,25 @@ def setColorCycle(column=3):
 #
 
 def useTheme(theme='light'):
-    matplotlib.rcParams['font.family'] = 'sans-serif'
-    matplotlib.rcParams['font.sans-serif'] = ['Helvetica', 'Arial', 'Lucida Grande', 'DejaVu Sans']
-    matplotlib.rcParams['figure.figsize'] = (8, 4)
-    matplotlib.rcParams['figure.dpi'] = 108
-    matplotlib.rcParams['legend.frameon'] = False
-    # matplotlib.rcParams['legend.labelspacing'] = 0.5
-    # matplotlib.rcParams['axes.linewidth'] = 0.5
-    # matplotlib.rcParams['axes.labelsize'] = 10
-    # matplotlib.rcParams['axes.labelpad'] = 4.0
-    # matplotlib.rcParams['axes.labelweight'] = 'normal'
-    # matplotlib.rcParams['axes.titleweight'] = 'normal'
-    # matplotlib.rcParams['axes.titlesize'] = 12
-    # matplotlib.rcParams['axes.titlepad'] = 6.0
-    # matplotlib.rcParams['axes.formatter.limits'] = [-5, 5]
-
+    props = {
+        'font.family': 'sans-serif',
+        'font.sans-serif': ['Helvetica Nueue', 'Helvetica', 'Arial', 'Lucida Grande', 'DejaVu Sans'],
+        'figure.figsize': (8, 4),
+        'figure.dpi': 108,
+        'legend.frameon': False,
+        'lagend.labelspacing': 0.5,
+        'axes.linewidth': 0.5,
+        'axes.labelsize': 10,
+        'axes.labelpad': 4.0,
+        'axes.labelweight': 'normal',
+        'axes.titleweight': 'normal',
+        'axes.titlesize': 12,
+        'axes.titlepad': 6.0,
+    }
     if theme == 'light':
-        props = {
+        props.update({
             'figure.facecolor': 'white',
-            'axes.facecolor': 'white',
+            'axes.facecolor': (1, 1, 1, 0.9),
             'axes.edgecolor': 'black',
             'axes.labelcolor': 'black',
             'grid.color': 'black',
@@ -51,11 +51,11 @@ def useTheme(theme='light'):
             'legend.edgecolor': 'black',
             'lines.markeredgecolor': 'black',
             'lines.markerfacecolor': 'black'
-        }
+        })
     elif theme == 'dark':
-        props = {
+        props.update({
             'figure.facecolor': 'black',
-            'axes.facecolor': 'black',
+            'axes.facecolor': (0, 0, 0, 0.9),
             'axes.edgecolor': 'white',
             'axes.labelcolor': 'white',
             'grid.color': 'white',
@@ -67,7 +67,7 @@ def useTheme(theme='light'):
             'legend.edgecolor': 'white',
             'lines.markeredgecolor': 'white',
             'lines.markerfacecolor': 'white'
-        }
+        })
     for keys in props:
         matplotlib.rcParams[keys] = props[keys]
 
