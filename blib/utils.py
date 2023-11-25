@@ -23,6 +23,10 @@ def showSwatch(swatch, M=6):
     fig.suptitle('Swatch', fontweight='bold')
     return fig
 
+def lines(N=10):
+    matplotlib.pyplot.plot(range(N) + 0.5 * (np.random.random((10, N)) - 0.5), '-o')
+    matplotlib.pyplot.grid()
+
 def rgb2lab(rgb):
     rgbv = np.array(rgb) / 255.0
     if len(rgbv.shape) == 1:
@@ -69,7 +73,6 @@ def listFonts(verbose=0, showname=False):
     return html
 
 def colorspace(rgba):
-
     # Some constants for convenient coding later
     count = len(rgba)
     x = np.arange(count)

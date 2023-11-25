@@ -1,5 +1,6 @@
-import cycler
 import matplotlib
+
+from cycler import cycler
 
 #
 # Some default parameters I'd like to use
@@ -9,7 +10,7 @@ def useTheme(theme='light'):
     props = {
         'font.family': 'sans-serif',
         'font.sans-serif': ['Helvetica', 'Arial', 'Lucida Grande', 'DejaVu Sans'],
-        'figure.figsize': (8, 4),
+        'figure.figsize': (8, 4.5),
         'figure.dpi': 108,
         'legend.frameon': False,
         'axes.linewidth': 0.5,
@@ -26,15 +27,13 @@ def useTheme(theme='light'):
             'axes.facecolor': (0, 0, 0, 0.9),
             'axes.edgecolor': 'white',
             'axes.labelcolor': 'white',
-            'grid.color': 'white',
+            'grid.color': (0.3, 0.3, 0.3),
             'xtick.color': 'white',
             'ytick.color': 'white',
             'hatch.color': 'white',
             'text.color': 'white',
             'legend.facecolor': 'black',
             'legend.edgecolor': 'white',
-            'lines.markeredgecolor': 'white',
-            'lines.markerfacecolor': 'white'
         })
         mc = [
             'mediumturquoise',
@@ -54,15 +53,13 @@ def useTheme(theme='light'):
             'axes.facecolor': (1, 1, 1, 0.9),
             'axes.edgecolor': 'black',
             'axes.labelcolor': 'black',
-            'grid.color': 'black',
+            'grid.color': (0.7, 0.7, 0.7),
             'xtick.color': 'black',
             'ytick.color': 'black',
             'hatch.color': 'black',
             'text.color': 'black',
             'legend.facecolor': 'white',
             'legend.edgecolor': 'black',
-            'lines.markeredgecolor': 'black',
-            'lines.markerfacecolor': 'black'
         })
         mc = [
             'steelblue',
@@ -70,7 +67,7 @@ def useTheme(theme='light'):
             'forestgreen',
             'crimson',
             'blueviolet',
-            'darkgoldenrod',
+            'saddlebrown',
             'hotpink',
             'grey',
             'olive',
@@ -83,4 +80,4 @@ def useTheme(theme='light'):
 
     dd = {k[0]:k[1] for k in matplotlib.colors.CSS4_COLORS.items()}
     cc = [dd[m] for m in mc]
-    matplotlib.rcParams['axes.prop_cycle'] = cycler.cycler(color=cc)
+    matplotlib.rcParams['axes.prop_cycle'] = cycler(color=cc)
