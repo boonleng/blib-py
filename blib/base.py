@@ -12,7 +12,6 @@ def useTheme(theme='light'):
         'figure.figsize': (8, 4),
         'figure.dpi': 108,
         'legend.frameon': False,
-        'lagend.labelspacing': 0.5,
         'axes.linewidth': 0.5,
         'axes.labelsize': 10,
         'axes.labelpad': 4.0,
