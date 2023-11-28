@@ -181,7 +181,7 @@ def colorspace(rgba):
         axm.set_xticks(range(count))
 
 
-def showFontWeights(name="Helvetica Neue"):
+def showFontWeights(name="Helvetica Neue", color=matplotlib.rcParams["text.color"]):
     fontnames = [x.name for x in matplotlib.font_manager.fontManager.ttflist]
     # weights = ['ultralight', 'light', 'regular', 'medium', 'bold', 'extra bold', 'black']
     weights = [100, 200, 300, 400, 500, 600]
@@ -201,11 +201,10 @@ def showFontWeights(name="Helvetica Neue"):
         fig = plt.figure(figsize=figsize, dpi=dpi, frameon=False)
         ax = plt.axes([0, 0, 1, 1], snap=True)
         plt.axis("off")
-        props = {"horizontalalignment": "left", "verticalalignment": "baseline", "fontsize": 32}
+        props = {"horizontalalignment": "left", "verticalalignment": "baseline", "fontsize": 32, "color": color}
         for i, w in enumerate(weights):
             x = 10 / pixels[0]
             y = (pixels[1] - props["fontsize"] - i * height) / pixels[1]
             t = ax.text(x, y, f"{name} {w}", family=name, weight=w, **props)
             e = t.get_window_extent()
             print(f"{w} : {e.x1-e.x0}")
-    return fig
