@@ -25,11 +25,6 @@ def showSwatch(swatch, M=6):
     return fig
 
 
-def lines(N=10):
-    plt.plot(range(N) + 0.5 * (np.random.random((10, N)) - 0.5), "-o")
-    plt.grid()
-
-
 def rgb2lab(rgb):
     rgbv = np.array(rgb) / 255.0
     if len(rgbv.shape) == 1:
@@ -181,7 +176,12 @@ def colorspace(rgba):
         axm.set_xticks(range(count))
 
 
-def showFontWeights(name="Helvetica Neue", color=matplotlib.rcParams["text.color"]):
+def showLineColors(N=10):
+    plt.plot(range(N) + 0.5 * (np.random.random((10, N)) - 0.5), "-o")
+    plt.grid()
+
+
+def showFontWeights(name="Helvetica Neue", color=None):
     fontnames = [x.name for x in matplotlib.font_manager.fontManager.ttflist]
     # weights = ['ultralight', 'light', 'regular', 'medium', 'bold', 'extra bold', 'black']
     weights = [100, 200, 300, 400, 500, 600]
@@ -201,7 +201,9 @@ def showFontWeights(name="Helvetica Neue", color=matplotlib.rcParams["text.color
         fig = plt.figure(figsize=figsize, dpi=dpi, frameon=False)
         ax = plt.axes([0, 0, 1, 1], snap=True)
         plt.axis("off")
-        props = {"horizontalalignment": "left", "verticalalignment": "baseline", "fontsize": 32, "color": color}
+        props = {"horizontalalignment": "left", "verticalalignment": "baseline", "fontsize": 32}
+        if color is not None:
+            props.update({"color": color})
         for i, w in enumerate(weights):
             x = 10 / pixels[0]
             y = (pixels[1] - props["fontsize"] - i * height) / pixels[1]

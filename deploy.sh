@@ -1,4 +1,4 @@
 #!/bin/bash
 
 python setup.py sdist
-twine upload --verbose $(ls dist/* | tail -n 1)
+twine upload --verbose --repository blib-py $(ls dist/* | tail -n 1)
