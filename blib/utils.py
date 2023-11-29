@@ -183,12 +183,12 @@ def showLineColors(N=10):
 
 def showFontWeights(name="Helvetica Neue", color=None):
     fontnames = [x.name for x in matplotlib.font_manager.fontManager.ttflist]
-    # weights = ['ultralight', 'light', 'regular', 'medium', 'bold', 'extra bold', 'black']
+    weight_names = ["ultralight", "light", "book", "normal", "regular", "medium", "roman", "demi", "bold"]
     weights = [100, 200, 300, 400, 500, 600]
 
-    print(f"{name} in collection: {name in fontnames}")
+    print(f"{name} in TTF collection: {name in fontnames}")
 
-    N = len(weights)
+    N = max(len(weights), len(weight_names))
     c = {
         "font.family": "sans-serif",
         "font.sans-serif": [name, "Helvetica", "Arial", "DejaVu Sans"],
@@ -196,17 +196,31 @@ def showFontWeights(name="Helvetica Neue", color=None):
     with plt.rc_context(c):
         dpi = 72
         height = 42
-        pixels = (500, N * height)
+        pixels = (800, N * height)
         figsize = (pixels[0] / dpi, pixels[1] / dpi)
-        fig = plt.figure(figsize=figsize, dpi=dpi, frameon=False)
+        plt.figure(figsize=figsize, dpi=dpi, frameon=False)
         ax = plt.axes([0, 0, 1, 1], snap=True)
         plt.axis("off")
         props = {"horizontalalignment": "left", "verticalalignment": "baseline", "fontsize": 32}
         if color is not None:
             props.update({"color": color})
-        for i, w in enumerate(weights):
-            x = 10 / pixels[0]
-            y = (pixels[1] - props["fontsize"] - i * height) / pixels[1]
-            t = ax.text(x, y, f"{name} {w}", family=name, weight=w, **props)
-            e = t.get_window_extent()
-            print(f"{w} : {e.x1-e.x0}")
+
+        n = len(max(weight_names))
+
+        def _show_weights(ww, origin=10):
+            m = 0
+            for i, w in enumerate(ww):
+                x = origin / pixels[0]
+                y = (pixels[1] - props["fontsize"] - i * height) / pixels[1]
+                t = ax.text(x, y, f"{name}", family=name, weight=w, **props)
+                e = t.get_window_extent()
+                m = max(m, e.x1 - e.x0)
+                prefix = f"{w:>{n}s}" if type(w) is str else f"{w:10d}"
+                print(f"{prefix} : {e.x1 - e.x0}")
+            m = (m + origin) / pixels[0]
+            for i, w in enumerate(ww):
+                y = (pixels[1] - props["fontsize"] - i * height) / pixels[1]
+                _ = ax.text(m, y, f"  {w}", family=name, weight=w, **props)
+
+        _show_weights(weights)
+        _show_weights(weight_names, origin=410)
