@@ -183,7 +183,21 @@ def showLineColors(N=10):
 
 def showFontWeights(name="Helvetica Neue", color=None):
     fontnames = [x.name for x in matplotlib.font_manager.fontManager.ttflist]
-    weight_names = ["ultralight", "light", "book", "normal", "regular", "medium", "roman", "demi", "bold"]
+    weight_names = [
+        "ultralight",
+        "light",
+        "book",
+        "normal",
+        "regular",
+        "medium",
+        "roman",
+        "demi",
+        "semibold",
+        "bold",
+        "heavy",
+        "extra bold",
+        "black",
+    ]
     weights = [100, 200, 300, 400, 500, 600, 700, 800, 900]
 
     print(f"{name} in TTF collection: {name in fontnames}")
@@ -209,6 +223,7 @@ def showFontWeights(name="Helvetica Neue", color=None):
 
         def _show_weights(ww, origin=10):
             m = 0
+            delta = [0] * len(ww)
             for i, w in enumerate(ww):
                 x = origin / pixels[0]
                 y = (pixels[1] - props["fontsize"] - i * height) / pixels[1]
@@ -216,12 +231,19 @@ def showFontWeights(name="Helvetica Neue", color=None):
                 e = t.get_window_extent()
                 m = max(m, e.x1 - e.x0)
                 prefix = f"{w:>{n}s}" if type(w) is str else f"{w:10d}"
-                delta = e.x1 - e.x0
-                print(f"{prefix} : {delta:.2f}")
+                delta[i] = e.x1 - e.x0
+                print(f"{prefix} : {delta[i]:.2f}")
             m = (m + origin) / pixels[0]
+            o = 0
             for i, w in enumerate(ww):
                 y = (pixels[1] - props["fontsize"] - i * height) / pixels[1]
-                _ = ax.text(m, y, f"  {w}", family=name, weight=w, **props)
+                t = ax.text(m, y, f"  {w}", family=name, weight=w, **props)
+                e = t.get_window_extent()
+                o = max(o, e.x1)
+            o = (o + 10) / pixels[0]
+            for i, w in enumerate(ww):
+                y = (pixels[1] - 24 - i * height) / pixels[1]
+                _ = ax.text(o, y, f"{delta[i]:.2f}", family="monospace", fontsize=12)
 
         _show_weights(weights)
         _show_weights(weight_names, origin=410)
