@@ -184,7 +184,7 @@ def showLineColors(N=10):
 def showFontWeights(name="Helvetica Neue", color=None):
     fontnames = [x.name for x in matplotlib.font_manager.fontManager.ttflist]
     weight_names = ["ultralight", "light", "book", "normal", "regular", "medium", "roman", "demi", "bold"]
-    weights = [100, 200, 300, 400, 500, 600]
+    weights = [100, 200, 300, 400, 500, 600, 700, 800, 900]
 
     print(f"{name} in TTF collection: {name in fontnames}")
 
@@ -216,7 +216,8 @@ def showFontWeights(name="Helvetica Neue", color=None):
                 e = t.get_window_extent()
                 m = max(m, e.x1 - e.x0)
                 prefix = f"{w:>{n}s}" if type(w) is str else f"{w:10d}"
-                print(f"{prefix} : {e.x1 - e.x0}")
+                delta = e.x1 - e.x0
+                print(f"{prefix} : {delta:.2f}")
             m = (m + origin) / pixels[0]
             for i, w in enumerate(ww):
                 y = (pixels[1] - props["fontsize"] - i * height) / pixels[1]
