@@ -1,7 +1,7 @@
 import os
 import colorsys
 import matplotlib
-import matplotlib.font_manager
+import matplotlib.font_manager as fm
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -61,10 +61,10 @@ def listFonts(verbose=0, showname=False):
 
     font_path = "fonts"
     if os.path.exists(font_path):
-        font_files = matplotlib.font_manager.findSystemFonts(fontpaths=[font_path])
-        font_names = matplotlib.font_manager.createFontList(font_files)
-        matplotlib.font_manager.fontManager.ttflist.extend(font_names)
-    code = "\n".join([_html(font) for font in sorted(set([f.name for f in matplotlib.font_manager.fontManager.ttflist]))])
+        font_files = fm.findSystemFonts(fontpaths=[font_path])
+        font_names = fm.createFontList(font_files)
+        fm.fontManager.ttflist.extend(font_names)
+    code = "\n".join([_html(font) for font in sorted(set([f.name for f in fm.fontManager.ttflist]))])
     if verbose:
         print("Type these in Notebook:\nfrom IPython.core.display import HTML\nHTML(result)")
     html = '<div style="column-count:2;">{}</div>'.format(code)
@@ -181,8 +181,8 @@ def showLineColors(N=10):
     plt.grid()
 
 
-def showFontWeights(name="Helvetica Neue", color=None):
-    fontnames = [x.name for x in matplotlib.font_manager.fontManager.ttflist]
+def showFontWeights(name="Noto Sans", color=None):
+    fontnames = [x.name for x in fm.fontManager.ttflist]
     weight_names = [
         "ultralight",
         "light",
@@ -215,11 +215,9 @@ def showFontWeights(name="Helvetica Neue", color=None):
         plt.figure(figsize=figsize, dpi=dpi, frameon=False)
         ax = plt.axes([0, 0, 1, 1], snap=True)
         plt.axis("off")
-        props = {"horizontalalignment": "left", "verticalalignment": "baseline", "fontsize": 32}
+        props = {"horizontalalignment": "left", "verticalalignment": "baseline", "fontsize": 28}
         if color is not None:
             props.update({"color": color})
-
-        n = len(max(weight_names))
 
         def _show_weights(ww, origin=10):
             m = 0
@@ -247,3 +245,38 @@ def showFontWeights(name="Helvetica Neue", color=None):
 
         _show_weights(weights)
         _show_weights(weight_names, origin=410)
+
+
+def showNotoSans(base="NotoSans", color=None):
+    styles = ["Thin", "ExtraLight", "Light", "Regular", "Medium", "SemiBold", "Bold", "ExtraBold", "Black"]
+
+    N = len(styles)
+
+    dpi = 72
+    height = 42
+    pixels = (800, N * height)
+    figsize = (pixels[0] / dpi, pixels[1] / dpi)
+
+    plt.figure(figsize=figsize, dpi=dpi, frameon=False)
+    ax = plt.axes([0, 0, 1, 1], snap=True)
+    plt.axis("off")
+
+    props = {"horizontalalignment": "left", "verticalalignment": "baseline"}
+    if color is not None:
+        props.update({"color": color})
+    fonts = [fm.FontProperties(fname=os.path.expanduser(f"~/Library/Fonts/{base}-{s}.ttf"), size=28) for s in styles]
+
+    m = 0
+    delta = [0] * N
+    for i, font in enumerate(fonts):
+        y = (pixels[1] - 24 - i * height) / pixels[1]
+        t = ax.text(0, y, f"Noto Sans", fontproperties=font, **props)
+        e = t.get_window_extent()
+        m = max(m, e.width)
+        delta[i] = e.width
+        t.remove()
+    for i, font in enumerate(fonts):
+        y = (pixels[1] - 24 - i * height) / pixels[1]
+        _ = ax.text(0, y + 6 / pixels[1], f"{delta[i]:.2f}", family="monospace", va="center")
+        t = ax.text(0.1, y, f"Noto Sans {styles[i]}", fontproperties=font)
+    return
