@@ -230,9 +230,9 @@ def showFontWeights(name="Helvetica Neue", color=None):
                 t = ax.text(x, y, f"{name}", family=name, weight=w, **props)
                 e = t.get_window_extent()
                 m = max(m, e.x1 - e.x0)
-                prefix = f"{w:>{n}s}" if type(w) is str else f"{w:10d}"
                 delta[i] = e.x1 - e.x0
-                print(f"{prefix} : {delta[i]:.2f}")
+                # prefix = f"{w:>{n}s}" if type(w) is str else f"{w:10d}"
+                # print(f"{prefix} : {delta[i]:.2f}")
             m = (m + origin) / pixels[0]
             o = 0
             for i, w in enumerate(ww):
