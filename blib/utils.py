@@ -219,32 +219,19 @@ def showFontWeights(name="Noto Sans", color=None):
         if color is not None:
             props.update({"color": color})
 
-        def _show_weights(ww, origin=10):
-            m = 0
-            delta = [0] * len(ww)
-            for i, w in enumerate(ww):
-                x = origin / pixels[0]
-                y = (pixels[1] - props["fontsize"] - i * height) / pixels[1]
-                t = ax.text(x, y, f"{name}", family=name, weight=w, **props)
-                e = t.get_window_extent()
-                m = max(m, e.x1 - e.x0)
-                delta[i] = e.x1 - e.x0
-                # prefix = f"{w:>{n}s}" if type(w) is str else f"{w:10d}"
-                # print(f"{prefix} : {delta[i]:.2f}")
-            m = (m + origin) / pixels[0]
-            o = 0
+        def _show_weights(ww, origin=5):
+            o = origin / pixels[0]
             for i, w in enumerate(ww):
                 y = (pixels[1] - props["fontsize"] - i * height) / pixels[1]
-                t = ax.text(m, y, f"  {w}", family=name, weight=w, **props)
+                t = ax.text(0, y, f"Bitcoin", family=name, weight=w, **props)
                 e = t.get_window_extent()
-                o = max(o, e.x1)
-            o = (o + 10) / pixels[0]
-            for i, w in enumerate(ww):
-                y = (pixels[1] - 24 - i * height) / pixels[1]
-                _ = ax.text(o, y, f"{delta[i]:.2f}", family="monospace", fontsize=12)
+                t.remove()
+                _ = ax.text(o + 0.1, y, f"{name} {w}", family=name, weight=w, **props)
+                y += 6 / pixels[1]
+                _ = ax.text(o, y, f"{e.width:.2f}", family="monospace", fontsize=12)
 
         _show_weights(weights)
-        _show_weights(weight_names, origin=410)
+        _show_weights(weight_names, origin=405)
 
 
 def showNotoSans(base="NotoSans", color=None):
@@ -261,22 +248,17 @@ def showNotoSans(base="NotoSans", color=None):
     ax = plt.axes([0, 0, 1, 1], snap=True)
     plt.axis("off")
 
+    fontpath = os.path.expanduser("~/Library/Fonts")
     props = {"horizontalalignment": "left", "verticalalignment": "baseline"}
     if color is not None:
         props.update({"color": color})
-    fonts = [fm.FontProperties(fname=os.path.expanduser(f"~/Library/Fonts/{base}-{s}.ttf"), size=28) for s in styles]
+    fonts = [fm.FontProperties(fname=f"{fontpath}/{base}-{s}.ttf", size=28) for s in styles]
 
-    m = 0
-    delta = [0] * N
     for i, font in enumerate(fonts):
         y = (pixels[1] - 24 - i * height) / pixels[1]
-        t = ax.text(0, y, f"Noto Sans", fontproperties=font, **props)
+        t = ax.text(0, y, f"Bitcoin", fontproperties=font, **props)
         e = t.get_window_extent()
-        m = max(m, e.width)
-        delta[i] = e.width
         t.remove()
-    for i, font in enumerate(fonts):
-        y = (pixels[1] - 24 - i * height) / pixels[1]
-        _ = ax.text(0, y + 6 / pixels[1], f"{delta[i]:.2f}", family="monospace", va="center")
-        t = ax.text(0.1, y, f"Noto Sans {styles[i]}", fontproperties=font)
-    return
+        _ = ax.text(0.1, y, f"Noto Sans {styles[i]}", fontproperties=font, **props)
+        y += 6 / pixels[1]
+        _ = ax.text(0, y, f"{e.width:.2f}", family="monospace", fontsize=12)
