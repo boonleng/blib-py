@@ -6,8 +6,6 @@ import matplotlib.font_manager as fm
 import matplotlib.pyplot as plt
 import numpy as np
 
-fontpath = importlib.resources.files("blib.fonts")
-
 
 def showSwatch(swatch, M=6):
     fig = plt.figure(figsize=(9, 4), dpi=216)
@@ -239,6 +237,7 @@ def showFontWeights(name="Noto Sans", color=None):
 
 def getFontOfWeight(weight):
     styles = ["Thin", "ExtraLight", "Light", "Regular", "Medium", "SemiBold", "Bold", "ExtraBold", "Black"]
+    fontpath = importlib.resources.files("blib.fonts")
     if isinstance(weight, int):
         index = min(max(weight // 100 - 1, 0), 8)
         name = f"NotoSans-{styles[index]}.ttf"
