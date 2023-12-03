@@ -6,6 +6,8 @@ import matplotlib.font_manager as fm
 import matplotlib.pyplot as plt
 import numpy as np
 
+fontpath = importlib.resources.files("blib.fonts")
+
 
 def showSwatch(swatch, M=6):
     fig = plt.figure(figsize=(9, 4), dpi=216)
@@ -235,10 +237,24 @@ def showFontWeights(name="Noto Sans", color=None):
         _show_weights(weight_names, origin=405)
 
 
-def showNotoSans(base="NotoSans", color=None):
+def getFontOfWeight(weight):
     styles = ["Thin", "ExtraLight", "Light", "Regular", "Medium", "SemiBold", "Bold", "ExtraBold", "Black"]
+    if isinstance(weight, int):
+        index = min(max(weight // 100 - 1, 0), 8)
+        name = f"NotoSans-{styles[index]}.ttf"
+    else:
+        name = f"NotoSans-{weight}.ttf"
+    path = fontpath.joinpath(name)
+    if not path.exists():
+        print(f"{path} not found")
+        return None
+    return fm.FontProperties(fname=path)
 
-    N = len(styles)
+
+def showNotoSans(color=None, base="NotoSans"):
+    weights = ["Thin", "ExtraLight", "Light", "Regular", "Medium", "SemiBold", "Bold", "ExtraBold", "Black"]
+
+    N = len(weights)
 
     dpi = 72
     height = 42
@@ -249,18 +265,19 @@ def showNotoSans(base="NotoSans", color=None):
     ax = plt.axes([0, 0, 1, 1], snap=True)
     plt.axis("off")
 
-    fontpath = importlib.resources.files("blib.fonts")
-    props = {"horizontalalignment": "left", "verticalalignment": "baseline"}
+    props = {"horizontalalignment": "left", "verticalalignment": "baseline", "fontsize": 28}
+    colors = [c["color"] for c in matplotlib.rcParams["axes.prop_cycle"]]
     if color is not None:
         props.update({"color": color})
-    paths = [fontpath.joinpath(f"{base}-{s}.ttf") for s in styles]
-    fonts = [fm.FontProperties(fname=p, size=28) for p in paths]
+    else:
+        props.update({"color": colors[0]})
 
-    for i, font in enumerate(fonts):
+    for i, w in enumerate(weights):
+        f = getFontOfWeight(w)
         y = (pixels[1] - 24 - i * height) / pixels[1]
-        t = ax.text(0, y, f"Bitcoin", fontproperties=font, **props)
+        t = ax.text(0, y, f"Bitcoin", fontproperties=f, **props)
         e = t.get_window_extent()
         t.remove()
-        _ = ax.text(0.1, y, f"Noto Sans {styles[i]}", fontproperties=font, **props)
+        _ = ax.text(0.1, y, f"Noto Sans {weights[i]}", fontproperties=f, **props)
         y += 6 / pixels[1]
-        _ = ax.text(0, y, f"{e.width:.2f}", family="monospace", fontsize=12)
+        _ = ax.text(0, y, f"{e.width:.2f}", family="monospace", fontsize=12, color=colors[3])
