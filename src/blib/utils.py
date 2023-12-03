@@ -1,5 +1,6 @@
 import os
 import colorsys
+import importlib
 import matplotlib
 import matplotlib.font_manager as fm
 import matplotlib.pyplot as plt
@@ -248,11 +249,12 @@ def showNotoSans(base="NotoSans", color=None):
     ax = plt.axes([0, 0, 1, 1], snap=True)
     plt.axis("off")
 
-    fontpath = os.path.expanduser("~/Library/Fonts")
+    fontpath = importlib.resources.files("blib.fonts")
     props = {"horizontalalignment": "left", "verticalalignment": "baseline"}
     if color is not None:
         props.update({"color": color})
-    fonts = [fm.FontProperties(fname=f"{fontpath}/{base}-{s}.ttf", size=28) for s in styles]
+    paths = [fontpath.joinpath(f"{base}-{s}.ttf") for s in styles]
+    fonts = [fm.FontProperties(fname=p, size=28) for p in paths]
 
     for i, font in enumerate(fonts):
         y = (pixels[1] - 24 - i * height) / pixels[1]
