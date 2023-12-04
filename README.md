@@ -45,17 +45,3 @@ import blib
 ### Colors
 
 ![Pallete](blob/swatch-lab.png)
-
-### Notes to Myself
-
-My memory is no longer as good as it used to be so I'm leaving myself some notes here. Don't use them.
-
-```shell
-python setup.py sdist upload
-```
-
-or
-
-```shell
- twine upload --repository blib dist/*
-```
