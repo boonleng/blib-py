@@ -2,13 +2,13 @@
 
 This is a collection of some convenient functions, color schemes, etc. for convenient coding in the future.
 
-### Install Using the Python Package Installaer
+## Install Using the Python Package Installaer
 
 ```shell
 pip install blib-py
 ```
 
-### Install from Source for System-Wide Usage
+## Install from Source for System-Wide Usage
 
 Download the project from either GitHub or ARRC GitLab:
 
@@ -29,7 +29,7 @@ cd blib-py
 pip install .
 ```
 
-### Use It Without Instlallation
+## Use It Without Instlallation
 
 It is possible to use this library without installation. Assuming that you downloaded the project into the folder `~/Developer/blib-py`, you can add the path to Python's search path as follows.
 
@@ -41,3 +41,23 @@ sys.path.insert(0, os.path.expanduser('~/Developer/blib-py'))
 
 import blib
 ```
+
+## Theme / Colors
+
+A theme can be activated by:
+
+```python
+blib.useTheme("light")
+
+blib.showLineColors()
+```
+
+![light](blob/line-colors-light.png)
+
+```python
+blib.useTheme("dark")
+
+blib.showLineColors()
+```
+
+![dark](blob/line-colors-dark.png)

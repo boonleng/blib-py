@@ -25,6 +25,7 @@ setup(
     package_dir={"": "src"},
     package_data={
         "blib.fonts": ["*.ttf"],
+        "blib.blob": ["line-*.png"],
     },
     include_package_data=True,
     license="MIT",
