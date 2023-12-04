@@ -41,7 +41,3 @@ sys.path.insert(0, os.path.expanduser('~/Developer/blib-py'))
 
 import blib
 ```
-
-### Colors
-
-![Pallete](blob/swatch-lab.png)
