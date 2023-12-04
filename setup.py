@@ -2,7 +2,10 @@ from setuptools import setup, find_packages
 
 from src.blib import __version__
 
-install_requires = ["numpy", "matplotlib"]
+with open("requirements.txt", "r") as fid:
+    install_requires = [line.strip() for line in fid.readlines() if line.strip()]
+
+print(install_requires)
 
 with open("README.md", "r") as fid:
     long_description = fid.read()
