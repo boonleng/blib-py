@@ -2,13 +2,11 @@ from setuptools import setup, find_packages
 
 from src.blib import __version__
 
-with open("requirements.txt", "r") as fid:
-    install_requires = [line.strip() for line in fid.readlines() if line.strip()]
+with open("requirements.txt", "r") as fh:
+    install_requires = [line.strip() for line in fh.readlines() if line.strip()]
 
-print(install_requires)
-
-with open("README.md", "r") as fid:
-    long_description = fid.read()
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
 # Setup
 setup(
@@ -30,7 +28,7 @@ setup(
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
-        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.11",
     ],
     include_package_data=True,
