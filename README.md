@@ -52,7 +52,7 @@ blib.useTheme("light")
 blib.showLineColors()
 ```
 
-![light](blob/line-colors-light.png)
+![light](https://raw.githubusercontent.com/boonleng/blib-py/master/blob/line-colors-light.png)
 
 ```python
 blib.useTheme("dark")
@@ -60,4 +60,4 @@ blib.useTheme("dark")
 blib.showLineColors()
 ```
 
-![dark](blob/line-colors-dark.png)
+![dark](https://raw.githubusercontent.com/boonleng/blib-py/master/blob/line-colors-dark.png)
