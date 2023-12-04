@@ -182,7 +182,7 @@ def showLineColors(N=10):
     plt.grid()
 
 
-def showFontWeights(name="Noto Sans", color=None):
+def showFontWeights(name="NotoSans", color=None):
     fontnames = [x.name for x in fm.fontManager.ttflist]
     weight_names = [
         "ultralight",
