@@ -237,17 +237,18 @@ def showFontWeights(name="NotoSans", color=None):
 
 def getFontOfWeight(weight):
     styles = ["Thin", "ExtraLight", "Light", "Regular", "Medium", "SemiBold", "Bold", "ExtraBold", "Black"]
-    new = hasattr(importlib, "resources")
-    if new:
-        fontpath = importlib.resources.files("blib.fonts")
-    else:
-        fontpath = os.path.join(os.path.dirname(importlib.util.find_spec("blib").origin), "fonts")
+    # new = hasattr(importlib, "resources")
+    # if new:
+    #     fontpath = importlib.resources.files("blib.fonts")
+    # else:
+    fontpath = os.path.join(os.path.dirname(importlib.util.find_spec("blib").origin), "fonts")
     if isinstance(weight, int):
         index = min(max(weight // 100 - 1, 0), 8)
         name = f"NotoSans-{styles[index]}.ttf"
     else:
         name = f"NotoSans-{weight}.ttf"
-    path = fontpath.joinpath(name) if new else os.path.join(fontpath, name)
+    # path = fontpath.joinpath(name) if new else os.path.join(fontpath, name)
+    path = os.path.join(fontpath, name)
     if not os.path.exists(path):
         print(f"{path} not found")
         return None
