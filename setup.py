@@ -27,6 +27,12 @@ setup(
         "blib.fonts": ["*.ttf"],
         "blib.blob": ["line-*.png"],
     },
+    classifiers=[
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.11",
+    ],
     include_package_data=True,
     license="MIT",
     zip_safe=False,
