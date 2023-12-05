@@ -2,7 +2,7 @@
 
 This is a collection of some convenient functions, color schemes, etc. for convenient coding in the future.
 
-## Install Using the Python Package Installaer
+## Install Using the Python Package-Management System
 
 ```shell
 pip install blib-py
@@ -31,13 +31,13 @@ pip install .
 
 ## Use It Without Instlallation
 
-It is possible to use this library without installation. Assuming that you downloaded the project into the folder `~/Developer/blib-py`, you can add the path to Python's search path as follows.
+It is possible to use this library without installation. Assuming that you downloaded the project into the folder `~/Developer/blib-py/src`, you can add the path to Python's search path as follows.
 
 ```python
 import os
 import sys
 
-sys.path.insert(0, os.path.expanduser('~/Developer/blib-py'))
+sys.path.insert(0, os.path.expanduser('~/Developer/blib-py/src'))
 
 import blib
 ```
