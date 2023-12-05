@@ -1,2 +1,1 @@
 include src/blib/fonts/*.ttf
-include requirements.txt
