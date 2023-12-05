@@ -6,6 +6,8 @@ import matplotlib.font_manager as fm
 import matplotlib.pyplot as plt
 import numpy as np
 
+from . import colormap
+
 
 def showSwatch(swatch, M=6):
     fig = plt.figure(figsize=(9, 4), dpi=216)
@@ -280,3 +282,27 @@ def showNotoSans(color=None):
         _ = ax.text(0.1, y, f"Noto Sans {weights[i]}", fontproperties=f, **props)
         y += 6 / pixels[1]
         _ = ax.text(0, y, f"{e.width:.2f}", family="monospace", fontsize=12, color=colors[3])
+
+
+def matplotlibColormap(name):
+    if name == "z":
+        rgb = colormap.zmap()
+    elif name == "v":
+        rgb = colormap.vmap()
+    elif name == "w":
+        rgb = colormap.wmap()
+    elif name == "d":
+        rgb = colormap.dmap()
+    elif name == "p":
+        rgb = colormap.pmap()
+    elif name == "r":
+        rgb = colormap.rmap()
+    elif name == "rsz":
+        rgb = colormap.rsz()
+    elif name == "rsd":
+        rgb = colormap.rsd()
+    elif name == "rsr":
+        rgb = colormap.rsr()
+    else:
+        return None
+    return matplotlib.colors.LinearSegmentedColormap.from_list("colors", rgb)

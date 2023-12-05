@@ -6,7 +6,7 @@ name = "blib-py"
 dynamic = ["version", "dependencies"]
 requires-python = ">=3.8"
 authors = [
-    {name = "Boon Leng Cheong", email = "boonleng@ou.edu"},
+    {name = "Boonleng Cheong", email = "boonleng@ou.edu"},
 ]
 description = "Boonleng's Python Library"
 readme = "README.md"
