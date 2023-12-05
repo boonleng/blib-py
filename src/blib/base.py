@@ -44,7 +44,7 @@ def useTheme(theme="light"):
             "mediumturquoise",
             "gold",
             "hotpink",
-            "yellowgreen",
+            "chartreuse",
             "dodgerblue",
             "darkorange",
             "mediumpurple",
@@ -77,7 +77,7 @@ def useTheme(theme="light"):
             "saddlebrown",
             "hotpink",
             "grey",
-            "olive",
+            "darkkhaki",
             "mediumturquoise",
         ]
     else:

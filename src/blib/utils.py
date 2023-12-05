@@ -182,7 +182,7 @@ def showLineColors(N=10):
     plt.grid()
 
 
-def showFontWeights(name="NotoSans", color=None):
+def showFontWeights(name="Helvetica Neue", color=None):
     fontnames = [x.name for x in fm.fontManager.ttflist]
     weight_names = [
         "ultralight",
@@ -235,14 +235,14 @@ def showFontWeights(name="NotoSans", color=None):
         _show_weights(weight_names, origin=405)
 
 
-def getFontOfWeight(weight):
-    styles = ["Thin", "ExtraLight", "Light", "Regular", "Medium", "SemiBold", "Bold", "ExtraBold", "Black"]
+def getFontOfWeight(weight, prefix="NotoSans"):
+    weight_names = ["Thin", "ExtraLight", "Light", "Regular", "Medium", "SemiBold", "Bold", "ExtraBold", "Black"]
     fontpath = os.path.join(os.path.dirname(importlib.util.find_spec("blib").origin), "fonts")
     if isinstance(weight, int):
         index = min(max(weight // 100 - 1, 0), 8)
-        name = f"NotoSans-{styles[index]}.ttf"
+        name = f"{prefix}-{weight_names[index]}.ttf"
     else:
-        name = f"NotoSans-{weight}.ttf"
+        name = f"{prefix}-{weight}.ttf"
     path = os.path.join(fontpath, name)
     if not os.path.exists(path):
         print(f"{path} not found")
