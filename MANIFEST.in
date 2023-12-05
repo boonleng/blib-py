@@ -1,4 +1,2 @@
 include src/blib/fonts/*.ttf
 include requirements.txt
-include blob/line-colors-dark.png
-include blob/line-colors-light.png
