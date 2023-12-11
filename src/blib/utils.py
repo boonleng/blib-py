@@ -280,3 +280,13 @@ def showNotoSans(color=None):
         _ = ax.text(0.1, y, f"Noto Sans {weights[i]}", fontproperties=f, **props)
         y += 6 / pixels[1]
         _ = ax.text(0, y, f"{e.width:.2f}", family="monospace", fontsize=12, color=colors[3])
+
+
+def cplot(t, x=None):
+    if x is None:
+        x = t
+        t = np.arange(len(t))
+    hl = plt.plot(t, x.real, t, x.imag, t, np.abs(x))
+    hl[-1].set(linewidth=0.8, zorder=-1)
+    plt.grid()
+    return hl
