@@ -286,9 +286,9 @@ def cplot(t, x=None):
     if x is None:
         x = t
         t = np.arange(len(t))
-    h1 = plt.plot(t, x.real, label="I")
-    h2 = plt.plot(t, x.imag, label="Q")
-    h3 = plt.plot(t, np.abs(x), label="A", linewidth=0.8, zorder=-1)
+    h1 = plt.plot(t, x.real, label="I", zorder=10)
+    h2 = plt.plot(t, x.imag, label="Q", zorder=9)
+    h3 = plt.plot(t, np.abs(x), label="A", linewidth=0.8, zorder=2)
     plt.legend()
     plt.grid()
     return [*h1, *h2, *h3]
