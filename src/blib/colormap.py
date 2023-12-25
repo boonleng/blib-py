@@ -477,17 +477,18 @@ def rsr():
 
 
 def matplotlibColormap(name):
-    if name == "z":
+    name = name.lower()
+    if name == "z" or name == "zmap":
         rgb = zmap()
-    elif name == "v":
+    elif name == "v" or name == "vmap":
         rgb = vmap()
-    elif name == "w":
+    elif name == "w" or name == "wmap":
         rgb = wmap()
-    elif name == "d":
+    elif name == "d" or name == "dmap":
         rgb = dmap()
-    elif name == "p":
+    elif name == "p" or name == "pmap":
         rgb = pmap()
-    elif name == "r":
+    elif name == "r" or name == "rmap":
         rgb = rmap()
     elif name == "rsz":
         rgb = rsz()
@@ -495,6 +496,10 @@ def matplotlibColormap(name):
         rgb = rsd()
     elif name == "rsr":
         rgb = rsr()
+    elif name == "zmapx":
+        rgb = zmapx()
+    elif name == "zmapstd":
+        rgb = zmapstd()
     else:
         return None
     return matplotlib.colors.LinearSegmentedColormap.from_list("colors", rgb)
