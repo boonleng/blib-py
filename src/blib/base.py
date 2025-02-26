@@ -88,3 +88,17 @@ def useTheme(theme="light"):
     dd = {k[0]: k[1] for k in matplotlib.colors.CSS4_COLORS.items()}
     cc = [dd[m] for m in mc]
     matplotlib.rcParams["axes.prop_cycle"] = cycler(color=cc)
+
+def cplot(t, x=None):
+    if x is None:
+        x = t
+        t = np.arange(len(t))
+    a = np.abs(x)
+    m = np.max(a) * 1.3
+    h1 = plt.plot(t, x.real, label="I", zorder=4)
+    h2 = plt.plot(t, x.imag, label="Q", zorder=3)
+    h3 = plt.plot(t, a, label="A", linewidth=0.8, zorder=2)
+    plt.legend(loc="lower left", ncol=3)
+    plt.gca().set(ylim=[-m, m])
+    plt.grid()
+    return [*h1, *h2, *h3]
