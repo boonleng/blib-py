@@ -1,5 +1,5 @@
-__version__ = "1.5.4"
+__version__ = "1.5.6"
 
 from .base import *
-# from .utils import *
-# from .colormap import *
+from .font import *
+from .colormap import *
