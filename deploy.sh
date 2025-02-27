@@ -3,7 +3,7 @@
 python -m build
 
 version=$(grep "__version__" src/blib/__init__.py | awk -F'"' '{print $2}')
-archive=$(ls -t dist/blib-py-${version}.tar.gz)
+archive=$(ls -t dist/blib_py-${version}.tar.gz)
 
 echo "version = ${version}   archive = ${archive}"
 
