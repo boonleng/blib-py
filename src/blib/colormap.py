@@ -476,6 +476,25 @@ def rsr():
     return fleximap(256, xp, cp)
 
 
+def rr():
+    cp = [
+        [0.0000, 0.0000, 0.0000, 1.0],  # solid black
+        [0.7412, 0.7412, 0.7412, 1.0],  # gray
+        [0.0000, 0.0000, 0.5255, 1.0],  # dark blue
+        [0.1255, 0.5216, 0.7882, 1.0],  # light blue
+        [0.2510, 1.0000, 0.7843, 1.0],  # cyan
+        [0.2980, 0.8471, 0.2706, 1.0],  # green
+        [1.0000, 1.0000, 0.3059, 1.0],  # yellow
+        [0.9922, 0.5412, 0.2235, 1.0],  # orange
+        [0.8392, 0.0000, 0.0510, 1.0],  # red
+        [0.6118, 0.0000, 0.0118, 1.0],  # dark red
+        [0.9255, 0.3725, 0.6392, 1.0],  # pink
+        [1.0000, 1.0000, 1.0000, 1.0],  # white
+    ]
+    xp = [np.floor(i * 25) / 255.0 for i in range(0, len(cp))]
+    return fleximap(256, xp, cp)
+
+
 def matplotlibColormap(name):
     name = name.lower()
     if name == "z" or name == "zmap":
@@ -500,6 +519,8 @@ def matplotlibColormap(name):
         rgb = zmapx()
     elif name == "zmapstd":
         rgb = zmapstd()
+    elif name == "rr":
+        rgb = rr()
     else:
         return None
     return matplotlib.colors.LinearSegmentedColormap.from_list("colors", rgb)
