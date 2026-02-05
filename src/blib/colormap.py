@@ -579,3 +579,7 @@ def matplotlibColormap(name):
     else:
         return None
     return matplotlib.colors.LinearSegmentedColormap.from_list("colors", rgb)
+
+
+def matplotlibColormapFromArray(rgba, name="custom"):
+    return matplotlib.colors.ListedColormap(rgba, name=name)
