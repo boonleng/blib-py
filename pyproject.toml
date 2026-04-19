@@ -26,6 +26,9 @@ classifiers = [
 [project.urls]
 Repository = "https://github.com/boonleng/blib-py"
 
+[project.scripts]
+logparse = "blib.logparse:main"
+
 [tool.setuptools]
 include-package-data = true
 

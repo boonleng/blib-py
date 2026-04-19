@@ -32,7 +32,7 @@ log_format = "%(asctime)s %(levelname)-7s %(message)s"
 log_indent = " " * 32
 
 
-def colorize(text, color="white", end="\033[0m"):
+def colorize(text, color: int | str = "white", end="\033[m"):
     if isinstance(color, int):
         return f"\033[38;5;{color}m{text}{end}"
     elif color in colors:

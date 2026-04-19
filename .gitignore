@@ -9,10 +9,12 @@ xcuserdata/
 *.csv
 *.png
 .ipynb_checkpoints
+.vscode
 
 # Some folders
 blib.egg-info
 blib_py.egg-info
+src/blib/database
 build
 data
 dist
