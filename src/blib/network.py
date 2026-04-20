@@ -27,10 +27,10 @@ def get_user_agent_string(user_agent, width=25, reload=False):
         oses = {"OS X": "macOS", "iPhone OS": "iOS", "unknown": "-"}
         return oses[key] if key in oses else key
 
-    if not user_agent[0].isalpha():
-        return f"- {user_agent[:18]}"
     if len(user_agent) == 0:
         return "-"
+    if not user_agent[0].isalpha():
+        return f"- {user_agent[:18]}"
     # API reference: http://www.useragentstring.com/pages/api.php
     global user_agent_strings
     if len(user_agent_strings) == 0 and os.path.exists(user_agent_strings_db):

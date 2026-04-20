@@ -30,6 +30,7 @@ Repository = "https://github.com/boonleng/blib-py"
 logparse = "blib.logparse:main"
 
 [tool.setuptools]
+package-dir = {"" = "src"}
 include-package-data = true
 
 [tool.setuptools.packages.find]

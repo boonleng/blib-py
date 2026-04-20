@@ -1,4 +1,4 @@
-__version__ = "1.7"
+__version__ = "1.7.1"
 
 from .base import *
 from .font import *

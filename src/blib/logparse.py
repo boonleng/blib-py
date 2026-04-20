@@ -15,7 +15,7 @@
 #
 #
 #  Created by Boonleng Cheong
-#  Copyright (c) 2021-2022 Boonleng Cheong.
+#  Copyright (c) 2021-2026 Boonleng Cheong.
 
 import os
 import re
@@ -255,7 +255,7 @@ class LogParser:
 def readlines(source):
     if not os.path.exists(source):
         print(f"ERROR. Source {source} does not exist")
-        return None
+        return []
     with gzip.open(source, "rt") if ".gz" == source[-3:] else open(source, "rt") as fid:
         lines = fid.readlines()
     return lines
@@ -263,7 +263,10 @@ def readlines(source):
 
 def find_previous_log(file):
     folder, basename = os.path.split(file)
-    parts = re_logfile.search(basename).groups()
+    parts = re_logfile.search(basename)
+    if not parts:
+        return []
+    parts = parts.groups()
     count = int(parts[1]) if parts[1] else 0
     parts = [parts[0], str(count + 1)]
     previous = os.path.join(folder, ".".join(parts))
@@ -276,13 +279,13 @@ def find_previous_log(file):
 
 
 def process_source(source, **kwargs):
-    # print(kwargs)
-    hope.show_line = kwargs["verbose"] > 0 if "verbose" in kwargs else False
-    hope.hide_bot = kwargs["hide_bot"] if "hide_bot" in kwargs else False
+    tato = kwargs.get("logparser", LogParser(format=kwargs.get("format", "loc")))
+    tato.show_line = kwargs["verbose"] > 0 if "verbose" in kwargs else False
+    tato.hide_bot = kwargs["hide_bot"] if "hide_bot" in kwargs else False
     print(f"\033[4;38;5;45m{source}\033[m")
     for line in readlines(source):
-        hope.process(line)
-    hope.summary()
+        tato.process(line)
+    tato.summary()
 
 
 def xfunc(parser, **kwargs):
@@ -374,19 +377,19 @@ def main():
             if source is None:
                 print(f"ERROR. Unable to find the previous source #{n}")
                 sys.exit()
-            process_source(source, verbose=args.verbose, hide_bot=args.hide_bot)
+            process_source(source, verbose=args.verbose, hide_bot=args.hide_bot, logparser=hope)
             sys.exit()
         for source in args.source:
             if not os.path.exists(source):
                 print(f"ERROR. Source {source} does not exist")
                 sys.exit()
-        process_source(source, verbose=args.verbose, hide_bot=args.hide_bot)
+        process_source(source, verbose=args.verbose, hide_bot=args.hide_bot, logparser=hope)
     else:
         source = f"/var/log/{args.parser}/access.log"
         if not os.path.exists(source):
             print(f"ERROR. Source {source} does not exist")
             sys.exit()
-        process_source(source, verbose=args.verbose, hide_bot=args.hide_bot)
+        process_source(source, verbose=args.verbose, hide_bot=args.hide_bot, logparser=hope)
 
 
 ###
