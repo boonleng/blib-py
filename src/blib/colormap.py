@@ -3,7 +3,7 @@ import matplotlib
 import numpy as np
 
 
-def fleximap(count=15, xp=None, cp=None):
+def fleximap(count: int, xp=None, cp=None):
     if xp is None and cp is None:
         # Color provided. This array can N x 3 for RGB or N x 4 for RGBA
         cp = [

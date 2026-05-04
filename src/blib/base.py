@@ -25,8 +25,18 @@ def useTheme(theme="light"):
         "axes.titleweight": "normal",
         "axes.titlesize": 12,
         "axes.titlepad": 6.0,
+        "grid.linewidth": 0.5,
+        "lines.linewidth": 0.9,
     }
-    if theme == "dark":
+    if "-hd" in theme:
+        props.update(
+            {
+                "figure.dpi": 144,
+                "grid.linewidth": 0.4,
+                "lines.linewidth": 0.7,
+            }
+        )
+    if "dark" in theme:
         props.update(
             {
                 "figure.facecolor": "black",
@@ -34,11 +44,13 @@ def useTheme(theme="light"):
                 "axes.edgecolor": "white",
                 "axes.labelcolor": "white",
                 "grid.color": (0.3, 0.3, 0.3),
+                "grid.linestyle": "-",
                 "xtick.color": "white",
                 "ytick.color": "white",
                 "hatch.color": "white",
                 "text.color": "white",
-                "legend.facecolor": "black",
+                "legend.frameon": True,
+                "legend.facecolor": (0.1, 0.1, 0.1, 0.1),
                 "legend.edgecolor": "white",
             }
         )
@@ -54,7 +66,7 @@ def useTheme(theme="light"):
             "grey",
             "rosybrown",
         ]
-    elif theme == "light":
+    elif "light" in theme:
         props.update(
             {
                 "figure.facecolor": "white",
@@ -62,11 +74,13 @@ def useTheme(theme="light"):
                 "axes.edgecolor": "black",
                 "axes.labelcolor": "black",
                 "grid.color": (0.7, 0.7, 0.7),
+                "grid.linestyle": ":",
                 "xtick.color": "black",
                 "ytick.color": "black",
                 "hatch.color": "black",
                 "text.color": "black",
-                "legend.facecolor": "white",
+                "legend.frameon": True,
+                "legend.facecolor": (1, 1, 1, 0.1),
                 "legend.edgecolor": "black",
             }
         )
@@ -90,6 +104,7 @@ def useTheme(theme="light"):
     dd = {k[0]: k[1] for k in matplotlib.colors.CSS4_COLORS.items()}
     cc = [dd[m] for m in mc]
     matplotlib.rcParams["axes.prop_cycle"] = cycler(color=cc)
+
 
 def cplot(t, x=None):
     if x is None:
