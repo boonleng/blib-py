@@ -18,10 +18,10 @@ database_download_url = "https://arrc.ou.edu/static/dbip-city-lite-2026-04.mmdb.
 country_short = {"United States": "USA", "United Kingdom": "UK"}
 
 
-@lru_cache
+@lru_cache(maxsize=1024)
 def get_user_agent_string(user_agent, width=25, reload=False):
     def _replace_os_string(key):
-        oses = {"OS X": "macOS", "iPhone OS": "iOS", "unknown": "-"}
+        oses = {"Mac OS X": "macOS", "iPhone OS": "iOS", "unknown": "-"}
         return oses[key] if key in oses else key
 
     if len(user_agent) == 0:
@@ -41,7 +41,7 @@ def get_user_agent_string(user_agent, width=25, reload=False):
     return f"- {user_agent[:18]}"
 
 
-@lru_cache
+@lru_cache(maxsize=1024)
 def get_ip_location(ip, show_city=False, abbreviate=False, download=True):
     ip_num = [int(x) for x in ip.split(".")]
     if (
