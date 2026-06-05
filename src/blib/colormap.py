@@ -1,31 +1,31 @@
 import colorsys
 import matplotlib
+import matplotlib.colors
 import numpy as np
 
 
 def fleximap(count: int, xp=None, cp=None):
     if xp is None and cp is None:
         # Color provided. This array can N x 3 for RGB or N x 4 for RGBA
-        cp = [
-            [0.5, 0.0, 0.0],
-            [1.0, 0.0, 0.0],
-            [1.0, 1.0, 1.0],
-            [0.0, 0.0, 1.0],
-            [0.0, 0.0, 0.5],
-        ]
+        cp = np.array(
+            [
+                [0.5, 0.0, 0.0],
+                [1.0, 0.0, 0.0],
+                [1.0, 1.0, 1.0],
+                [0.0, 0.0, 1.0],
+                [0.0, 0.0, 0.5],
+            ],
+            dtype=float,
+        )
         # X-axis provided, the number of elements must be N
-        xp = [0.0, 0.2, 0.5, 0.8, 1.0]
-    # If x is not supplied
-    if xp is None:
-        xp = np.linspace(0.0, 1.0, len(cp))
-    # If color is not supplied
-    if cp is None:
-        print("Supply xp and cp.")
-        return None
-    cp = np.array(cp, dtype=float)
+        xp = np.array([0.0, 0.2, 0.5, 0.8, 1.0], dtype=float)
+    elif cp is None:
+        raise ValueError("Color array (cp) must be provided if x-axis (xp) is provided.")
+    else:
+        cp = np.asarray(cp, dtype=float)
+        xp = np.linspace(0.0, 1.0, len(cp)) if xp is None else np.asarray(xp, dtype=float)
     xi = np.linspace(0.0, 1.0, count)
-    rgb = np.array([np.interp(xi, xp, cp[:, i]) for i in range(cp.shape[1])]).transpose((1, 0))
-    return rgb
+    return np.column_stack([np.interp(xi, xp, cp[:, i]) for i in range(cp.shape[1])])
 
 
 def desaturate_colormap(cmap, value=0.5):
@@ -203,7 +203,7 @@ def vmap(count=64):
     ]
     rgba = fleximap(count, xp, cp)
     if (256 % count) == 0:
-        n = 256 / count
+        n = 256 // count
         rgba = np.repeat(np.expand_dims(rgba, axis=1), n, axis=1).reshape(256, 4)
     return rgba
 

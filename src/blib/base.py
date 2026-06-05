@@ -1,17 +1,13 @@
-import os
-import numpy as np
-
-import matplotlib
-import matplotlib.pyplot as plt
-
-from cycler import cycler
-
 #
 # Some default parameters I'd like to use
 #
 
 
 def useTheme(theme="light"):
+    import matplotlib
+    import matplotlib.colors
+    from cycler import cycler
+
     props = {
         "font.family": "sans-serif",
         "font.sans-serif": ["Helvetica", "Arial", "Lucida Grande", "DejaVu Sans"],
@@ -107,6 +103,9 @@ def useTheme(theme="light"):
 
 
 def cplot(t, x=None):
+    import numpy as np
+    import matplotlib.pyplot as plt
+
     if x is None:
         x = t
         t = np.arange(len(t))
