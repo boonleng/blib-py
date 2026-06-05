@@ -1,4 +1,4 @@
 numpy
 matplotlib
 maxminddb
-user_agents
+ua-parser[regex]

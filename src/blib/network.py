@@ -1,12 +1,17 @@
 import os
-import re
 import glob
-import json
 import maxminddb
 import urllib.request
 
 from functools import lru_cache
-from user_agents import parse
+
+# import httpagentparser
+# import ua_parser.loaders, ua_parser.regex
+
+# base = ua_parser.regex.Resolver(ua_parser.loaders.load_lazy_builtins())
+# cache = ua_parser.caching.Lru(1000)
+# resolver = ua_parser.caching.CachingResolver(base, cache)
+# parser = ua_parser.Parser(resolver)
 
 base_dir = os.path.expanduser("~/.config/blib")
 if not os.path.exists(base_dir):
@@ -18,30 +23,37 @@ database_download_url = "https://arrc.ou.edu/static/dbip-city-lite-2026-04.mmdb.
 country_short = {"United States": "USA", "United Kingdom": "UK"}
 
 
-@lru_cache(maxsize=1024)
-def get_user_agent_string(user_agent, width=25, reload=False):
-    def _replace_os_string(key):
-        oses = {"Mac OS X": "macOS", "iPhone OS": "iOS", "unknown": "-"}
-        return oses[key] if key in oses else key
+@lru_cache(maxsize=4096)
+def get_user_agent_string(user_agent, width=25):
+    from ua_parser import parse
 
-    if len(user_agent) == 0:
-        return "-"
-    if not user_agent[0].isalpha():
-        return f"- {user_agent[:18]}"
-    try:
-        ua = parse(user_agent)
-        machine = _replace_os_string(ua.os.family)
-        browser = ua.browser.family
+    ua = parse(user_agent)
+    if ua and ua.os and ua.os.family and ua.user_agent and ua.user_agent.family:
+        machine = ua.os.family
+        browser = ua.user_agent.family
         machine_browser = f"/ {browser}" if machine == "-" else f"{machine} / {browser}"
-        if len(machine_browser) > width:
-            machine_browser = machine_browser[: width - 3] + "..."
-        return machine_browser
-    except:
-        pass
-    return f"- {user_agent[:18]}"
+    else:
+        machine_browser = f"- {user_agent[:18]}"
+    if len(machine_browser) > width:
+        machine_browser = machine_browser[: width - 3] + "..."
+    return machine_browser
 
 
-@lru_cache(maxsize=1024)
+# @lru_cache(maxsize=4096)
+# def get_user_agent_string(user_agent, width=25):
+#     import httpagentparser
+
+#     info = httpagentparser.detect(user_agent)
+#     os_name = info.get("os", {}).get("name", "-")
+#     browser_name = info.get("browser", {}).get("name", "-")
+
+#     machine_browser = f"{os_name} / {browser_name}"
+#     if len(machine_browser) > width:
+#         machine_browser = machine_browser[: width - 3] + "..."
+#     return machine_browser
+
+
+@lru_cache(maxsize=4096)
 def get_ip_location(ip, show_city=False, abbreviate=False, download=True):
     ip_num = [int(x) for x in ip.split(".")]
     if (

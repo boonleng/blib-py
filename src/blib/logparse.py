@@ -20,16 +20,10 @@
 import os
 import re
 import sys
-import gzip
-import pprint
 import select
-import datetime
 import argparse
+import datetime
 import textwrap
-
-import fcntl
-import termios
-import struct
 
 from signal import signal, SIGPIPE, SIG_DFL
 
@@ -43,7 +37,6 @@ from blib.__init__ import __version__
 
 __prog__ = os.path.basename(sys.argv[0])
 
-pp = pprint.PrettyPrinter(indent=1, depth=1, width=140, sort_dicts=False)
 re_nginx = re.compile(
     r"(?P<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|-)([0-9\., ]+)"
     + r"\[(?P<time>\d{2}/[A-Za-z]{3}/\d{4}:\d{2}:\d{2}:\d{2}).+\] "
@@ -93,16 +86,23 @@ def fast_parse_time(s):
 
 def get_terminal_width():
     try:
+        t = os.get_terminal_size()
+        return t.columns
+    except:
+        pass
+
+    import fcntl
+    import struct
+    import termios
+
+    try:
         _, w = struct.unpack("HH", fcntl.ioctl(0, termios.TIOCGWINSZ, b"\0" * 4))
         if w:
             return w
     except:
         pass
-    try:
-        t = os.get_terminal_size()
-        return t.columns
-    except:
-        return 80
+
+    return 80
 
 
 class LogParser:
@@ -230,7 +230,7 @@ class LogParser:
         b = f"{self.bytes:10,d}" if self.bytes else "         -"
         if re_agent.search(self.user_agent) is None and len(self.user_agent) > 100:
             h = f"{t} | {self.ip:>15} | "
-            w = get_terminal_width() - len(h)
+            w = self.width - len(h)
             m = "\n".join(textwrap.wrap(self.user_agent, width=w))
             i = len(h)
             n = textwrap.indent(m, prefix=" " * i)
@@ -278,6 +278,10 @@ def iterlines(source):
     if not os.path.exists(source):
         print(f"ERROR. Source {source} does not exist")
         return
+
+    if source.endswith(".gz"):
+        import gzip
+
     with gzip.open(source, "rt") if source.endswith(".gz") else open(source, "rt") as fid:
         for line in fid:
             yield line
@@ -327,6 +331,10 @@ def xfunc(parser, **kwargs):
             if parser.ip not in ips:
                 ips[parser.ip] = parser.location
         source = find_previous_log(source)
+
+    import pprint
+
+    pp = pprint.PrettyPrinter(indent=1, depth=1, width=140, sort_dicts=False)
     pp.pprint(ips)
 
 
@@ -344,16 +352,24 @@ def main():
             {__prog__} -a -f loc
             {__prog__} -af all
         """),
-        epilog="Copyright (c) 2022 Boonleng Cheong",
+        epilog="Copyright (c) 2022-2026 Boonleng Cheong",
     )
     parser.add_argument("source", type=str, nargs="*", help="source(s) to process")
     parser.add_argument("-a", "--access", action="store_true", help="checks nginx access log")
     parser.add_argument("-c", "--count", action="store_true", help="counts number of unique visitors")
     parser.add_argument(
-        "-f", "--format", choices={"all", "url", "loc", "agent"}, default="loc", help="format (default = loc)"
+        "-f",
+        "--format",
+        choices={"all", "url", "loc", "agent"},
+        default="loc",
+        help="format (default = loc)",
     )
     parser.add_argument(
-        "-p", "--parser", choices={"radarhub", "nginx"}, default="nginx", help="log parser (default = nginx)"
+        "-p",
+        "--parser",
+        choices={"radarhub", "nginx"},
+        default="nginx",
+        help="log parser (default = nginx)",
     )
     parser.add_argument("-q", "--quiet", action="store_true", help="operates in quiet mode and shows summary only")
     parser.add_argument("-s", "--summary", action="store_true", help="shows summary")

@@ -1,16 +1,18 @@
 import os
 import colorsys
-import importlib
 import matplotlib
+import matplotlib.colors
+import matplotlib.lines
 import matplotlib.font_manager as fm
 import matplotlib.pyplot as plt
 import numpy as np
 
 from .font import getFontOfWeight
 
+
 def showSwatch(swatch, M=6):
     fig = plt.figure(figsize=(9, 4), dpi=216)
-    ax = fig.add_axes([0, 0, 1, 0.92], frameon=False)
+    ax = fig.add_axes((0, 0, 1, 0.92), frameon=False)
     for i in range(42):
         x = i % M
         y = M - i // M
@@ -21,8 +23,8 @@ def showSwatch(swatch, M=6):
         plt.text(x + 0.15, y - 0.03, c[0], va="center")
     ax.xaxis.set_visible(False)
     ax.yaxis.set_visible(False)
-    ax.set_xlim([-0.15, M])
-    ax.set_ylim([-0.5, M + 0.5])
+    ax.set_xlim((-0.15, M))
+    ax.set_ylim((-0.5, M + 0.5))
     fig.suptitle("Swatch", fontweight="bold")
     return fig
 
@@ -46,7 +48,7 @@ def rgb2lab(rgb):
     y3 = y ** (1.0 / 3.0)
     fX = np.multiply(xt, x ** (1.0 / 3.0)) + np.multiply(~xt, 7.787 * x + 16.0 / 116.0)
     fY = np.multiply(yt, y3) + np.multiply(~yt, 7.787 * y + 16.0 / 116.0)
-    fZ = np.multiply(zt, z ** (1.0 / 3.0)) + np.multiply(~zt, 7.787 * y + 16.0 / 116.0)
+    fZ = np.multiply(zt, z ** (1.0 / 3.0)) + np.multiply(~zt, 7.787 * z + 16.0 / 116.0)
     L = np.multiply(yt, 116.0 * y3 - 16.0) + np.multiply(~yt, 903.3 * y)
     a = 500.0 * (fX - fY)
     b = 200.0 * (fY - fZ)
@@ -61,11 +63,6 @@ def listFonts(verbose=0, showname=False):
         line += "</p>"
         return line
 
-    font_path = "fonts"
-    if os.path.exists(font_path):
-        font_files = fm.findSystemFonts(fontpaths=[font_path])
-        font_names = fm.createFontList(font_files)
-        fm.fontManager.ttflist.extend(font_names)
     code = "\n".join([_html(font) for font in sorted(set([f.name for f in fm.fontManager.ttflist]))])
     if verbose:
         print("Type these in Notebook:\nfrom IPython.core.display import HTML\nHTML(result)")
@@ -84,9 +81,9 @@ def colorspace(rgba):
     hsv = np.array([colorsys.rgb_to_hsv(r, g, b) for r, g, b in rgb])
 
     # If image width = 1280, 0.8 x 1280 = 1024
-    BACK_RECT = [0.1, 0.11, 0.8, 0.85]
-    LINE_RECT = [0.1, 0.41, 0.8, 0.55]
-    MAIN_RECT = [0.1, 0.11, 0.8, 0.30]
+    BACK_RECT = (0.1, 0.11, 0.8, 0.85)
+    LINE_RECT = (0.1, 0.41, 0.8, 0.55)
+    MAIN_RECT = (0.1, 0.11, 0.8, 0.30)
 
     linewidth = 1.5
 
@@ -169,8 +166,8 @@ def colorspace(rgba):
         _ = axl.legend(handles=lines, loc="upper left", ncol=6, frameon=False, fontsize=9)
 
     # Axis limits, grid, etc.
-    axl.set_xlim([-0.5, count - 0.5])
-    axl.set_ylim([-0.05, 1.18])
+    axl.set_xlim((-0.5, count - 0.5))
+    axl.set_ylim((-0.05, 1.18))
     axl.set_ylabel("Values")
     axl.grid(alpha=0.5, color="k", linestyle=":")
     axm.set_xlabel("Color Index")
@@ -215,7 +212,7 @@ def showFontWeights(name="Helvetica Neue", color=None):
         pixels = (800, N * height)
         figsize = (pixels[0] / dpi, pixels[1] / dpi)
         plt.figure(figsize=figsize, dpi=dpi, frameon=False)
-        ax = plt.axes([0, 0, 1, 1], snap=True)
+        ax = plt.axes((0, 0, 1, 1), snap=True)
         plt.axis("off")
         props = {"horizontalalignment": "left", "verticalalignment": "baseline", "fontsize": 28}
         if color is not None:
@@ -236,7 +233,6 @@ def showFontWeights(name="Helvetica Neue", color=None):
         _show_weights(weight_names, origin=405)
 
 
-
 def showNotoSans(color=None):
     weights = ["Thin", "ExtraLight", "Light", "Regular", "Medium", "SemiBold", "Bold", "ExtraBold", "Black"]
 
@@ -248,7 +244,7 @@ def showNotoSans(color=None):
     figsize = (pixels[0] / dpi, pixels[1] / dpi)
 
     plt.figure(figsize=figsize, dpi=dpi, frameon=False)
-    ax = plt.axes([0, 0, 1, 1], snap=True)
+    ax = plt.axes((0, 0, 1, 1), snap=True)
     plt.axis("off")
 
     props = {"horizontalalignment": "left", "verticalalignment": "baseline", "fontsize": 28}
