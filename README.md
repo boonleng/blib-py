@@ -1,5 +1,9 @@
 # Boonleng's Python Library
 
+[![][version-shield]][release-link]
+[![][python-shield]][python-link]
+[![][license-shield]][license-link]
+
 This is a collection of some convenient functions, color schemes, etc. for convenient coding in the future.
 
 ## Install Using the Python Package-Management System
@@ -49,7 +53,7 @@ A theme can be activated by:
 ```python
 blib.useTheme("light")
 
-blib.showLineColors()
+blib.utils.showLineColors()
 ```
 
 ![light](https://raw.githubusercontent.com/boonleng/blib-py/master/blob/line-colors-light.png)
@@ -57,7 +61,15 @@ blib.showLineColors()
 ```python
 blib.useTheme("dark")
 
-blib.showLineColors()
+blib.utils.showLineColors()
 ```
 
 ![dark](https://raw.githubusercontent.com/boonleng/blib-py/master/blob/line-colors-dark.png)
+
+<!-- Link Definitions -->
+[version-shield]: https://img.shields.io/github/v/release/boonleng/blib-py
+[release-link]: https://github.com/boonleng/blib-py/releases
+[python-shield]: https://img.shields.io/badge/python-3.8+-ffd43b?logo=python&logoColor=fff
+[python-link]: https://www.python.org
+[license-shield]: https://img.shields.io/badge/license-MIT-red
+[license-link]: https://github.com/boonleng/blib-py/blob/master/LICENSE

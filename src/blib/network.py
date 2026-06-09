@@ -5,14 +5,6 @@ import urllib.request
 
 from functools import lru_cache
 
-# import httpagentparser
-# import ua_parser.loaders, ua_parser.regex
-
-# base = ua_parser.regex.Resolver(ua_parser.loaders.load_lazy_builtins())
-# cache = ua_parser.caching.Lru(1000)
-# resolver = ua_parser.caching.CachingResolver(base, cache)
-# parser = ua_parser.Parser(resolver)
-
 base_dir = os.path.expanduser("~/.config/blib")
 if not os.path.exists(base_dir):
     os.makedirs(base_dir)
@@ -32,25 +24,13 @@ def get_user_agent_string(user_agent, width=25):
         machine = ua.os.family
         browser = ua.user_agent.family
         machine_browser = f"/ {browser}" if machine == "-" else f"{machine} / {browser}"
+    elif ua.user_agent and ua.user_agent.family:
+        machine_browser = f"- {ua.user_agent.family}"
     else:
-        machine_browser = f"- {user_agent[:18]}"
+        machine_browser = f"- {user_agent}"
     if len(machine_browser) > width:
         machine_browser = machine_browser[: width - 3] + "..."
     return machine_browser
-
-
-# @lru_cache(maxsize=4096)
-# def get_user_agent_string(user_agent, width=25):
-#     import httpagentparser
-
-#     info = httpagentparser.detect(user_agent)
-#     os_name = info.get("os", {}).get("name", "-")
-#     browser_name = info.get("browser", {}).get("name", "-")
-
-#     machine_browser = f"{os_name} / {browser_name}"
-#     if len(machine_browser) > width:
-#         machine_browser = machine_browser[: width - 3] + "..."
-#     return machine_browser
 
 
 @lru_cache(maxsize=4096)

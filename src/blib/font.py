@@ -1,8 +1,7 @@
-import os
-import matplotlib.font_manager as fm
-
-
 def getFontOfWeight(weight, prefix="NotoSans"):
+    import os
+    import matplotlib.font_manager as fm
+
     weight_names = ["Thin", "ExtraLight", "Light", "Regular", "Medium", "SemiBold", "Bold", "ExtraBold", "Black"]
     fontpath = os.path.join(os.path.dirname(__file__), "fonts")
     if isinstance(weight, int):
