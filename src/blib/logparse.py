@@ -37,19 +37,6 @@ from blib.__init__ import __version__
 
 __prog__ = os.path.basename(sys.argv[0])
 
-re_nginx = re.compile(
-    r"(?P<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|-)([0-9\., ]+)"
-    + r"\[(?P<time>\d{2}/[A-Za-z]{3}/\d{4}:\d{2}:\d{2}:\d{2}).+\] "
-    + r'"([A-Z]+) (?P<url>.+) (?P<protocol>HTTP/[0-9\.]+)" '
-    + r"(?P<status>\d{3}) (?P<bytes>\d+) "
-    + r'"(?P<user_agent>.+)" "(?P<compression>[0-9\.-]+)"'
-)
-re_radarhub = re.compile(
-    r"(?P<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|-):\d{1,5} - -"
-    + r" \[(?P<time>\d{2}/[A-Za-z]{3}/\d{4}:\d{2}:\d{2}:\d{2})\]"
-    + r' "(GET|PUT|POST|WSCONNECTING|WSDISCONNECT) (?P<url>.+)"'
-    + r" (?P<status>[\d-]+) (?P<bytes>[\d-]+)"
-)
 re_agent = re.compile(r"(mozilla|webkit|safari|firefox|android)", flags=re.IGNORECASE)
 re_logfile = re.compile(r"(\w+\.log)(?:\.(\d{1,2}))?(?:\.(gz))?", flags=re.IGNORECASE)
 
@@ -108,7 +95,21 @@ def get_terminal_width():
 class LogParser:
     def __init__(self, line=None, **kwargs):
         self.format = kwargs["format"] if "format" in kwargs else "loc"
-        self.parser = re_radarhub if "parser" in kwargs and kwargs["parser"] == "radarhub" else re_nginx
+        if "parser" in kwargs and kwargs["parser"] == "radarhub":
+            self.parser = re.compile(
+                r"(?P<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|-):\d{1,5} - -"
+                + r" \[(?P<time>\d{2}/[A-Za-z]{3}/\d{4}:\d{2}:\d{2}:\d{2})\]"
+                + r' "(GET|PUT|POST|WSCONNECTING|WSDISCONNECT) (?P<url>.+)"'
+                + r" (?P<status>[\d-]+) (?P<bytes>[\d-]+)"
+            )
+        else:
+            self.parser = re.compile(
+                r"(?P<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|-)([0-9\., ]+)"
+                + r"\[(?P<time>\d{2}/[A-Za-z]{3}/\d{4}:\d{2}:\d{2}:\d{2}).+\] "
+                + r'"([A-Z]+) (?P<url>.+) (?P<protocol>HTTP/[0-9\.]+)" '
+                + r"(?P<status>\d{3}) (?P<bytes>\d+) "
+                + r'"(?P<user_agent>.+)" "(?P<compression>[0-9\.-]+)"'
+            )
         self.show_bot_message = True
         if "width" in kwargs and kwargs["width"] is not None and kwargs["width"] > 40:
             self.width = kwargs["width"]
@@ -237,10 +238,7 @@ class LogParser:
             o = colorize(n[i:], "mint")
             return f"{h}{o} ({len(m)} / {w})"
         if self.format == "loc":
-            if self.parser == re_nginx:
-                return f"{t} | {self.ip:>15} | {l:>25} | {b} | {c} | {u}"
-            else:
-                return f"{t} | {self.ip:>15} | {l:>25} | {b} | {u}"
+            return f"{t} | {self.ip:>15} | {l:>25} | {b} | {c} | {u}"
         if self.format == "url":
             return f"{t} | {self.ip:>15} | {self.bytes:>10,d} | {c} | {u}"
         if self.format == "agent":
@@ -374,7 +372,7 @@ def main():
     parser.add_argument("-q", "--quiet", action="store_true", help="operates in quiet mode and shows summary only")
     parser.add_argument("-s", "--summary", action="store_true", help="shows summary")
     parser.add_argument("-v", "--verbose", default=1, action="count", help="increases verbosity (default = 1)")
-    parser.add_argument("-w", "--width", type=int, help="uses specific width")
+    parser.add_argument("-w", "--width", type=int, default=40, help="uses specific width")
     parser.add_argument("-x", action="store_true", help="experimental")
     parser.add_argument("--all", action="store_true", help="same as -f all")
     parser.add_argument("--no-bot", dest="hide_bot", action="store_true", help="hides traffic created by bots")

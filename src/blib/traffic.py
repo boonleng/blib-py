@@ -35,7 +35,7 @@ def socket_listen(host="localhost", port: int = 9000):
                 tm.sleep(1.0)
                 k -= 1
             continue
-        sock.setblocking(0)
+        sock.setblocking(False)
         logger.info(f"{myname} fifoshare connection {host} established")
 
         localMemory = b""
@@ -50,7 +50,7 @@ def socket_listen(host="localhost", port: int = 9000):
                 try:
                     r = sock.recv(1024)
                     logger.debug(f"{myname} recv() -> {r}")
-                    if r[:4] == b'\xff\x00\x00\x00':
+                    if r[:4] == b"\xff\x00\x00\x00":
                         continue
                 except:
                     logger.warning(f"{myname} fifoshare connection interrupted.")
