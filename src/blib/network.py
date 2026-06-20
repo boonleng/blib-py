@@ -21,7 +21,7 @@ def get_user_agent_string(user_agent, width=25):
 
     ua = parse(user_agent)
     if ua and ua.os and ua.os.family and ua.user_agent and ua.user_agent.family:
-        machine = ua.os.family
+        machine = ua.os.family.replace("Mac OS X", "macOS")
         browser = ua.user_agent.family
         machine_browser = f"/ {browser}" if machine == "-" else f"{machine} / {browser}"
     elif ua.user_agent and ua.user_agent.family:
