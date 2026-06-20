@@ -46,7 +46,7 @@ def get_ip_location(ip, show_city=False, abbreviate=False, download=True):
     if ip_location_db_fid is None:
         dbs = sorted(glob.glob(f"{base_dir}/*.mmdb"))
         if len(dbs) == 0 and download:
-            print("Downloading IP location database...")
+            print(f"Downloading IP location database to {base_dir}...")
             basename = os.path.basename(database_download_url)
             database = os.path.join(base_dir, basename)
             urllib.request.urlretrieve(database_download_url, database)
