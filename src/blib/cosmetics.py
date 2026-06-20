@@ -158,7 +158,9 @@ def colored_variables(*vars, **kwargs):
     sep = kwargs.get("sep", "   ")
     frame = inspect.currentframe()
     frame = inspect.getouterframes(frame)[1]
-    string = inspect.getframeinfo(frame[0]).code_context[0].strip()
+    finfo = inspect.getframeinfo(frame[0])
+    assert finfo.code_context is not None, "Unable to continue."
+    string = finfo.code_context[0].strip()
     source = string[string.rfind("(") + 1 : string.find(")")]
     names = source.split(",")
     text = []
